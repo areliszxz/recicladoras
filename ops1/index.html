@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Recyclum · Centros de Reciclaje en Querétaro</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
@@ -34,6 +31,8 @@
             --whatsapp-green: #25d366;
             --whatsapp-dark: #128C7E;
             --maps-blue: #4285F4;
+            --event-orange: #f57c00;
+            --event-light: #fff3e0;
         }
 
         * {
@@ -67,7 +66,7 @@
         }
 
         /* ============================================ */
-        /* 2. PRELOADER MEJORADO */
+        /* 2. PRELOADER */
         /* ============================================ */
         #preloader {
             position: fixed;
@@ -626,6 +625,11 @@
             margin: 0 20px 30px;
             padding: 40px;
             min-height: 200px;
+            display: none;
+        }
+
+        .results-section.visible {
+            display: block;
         }
 
         .results-header {
@@ -651,32 +655,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-        }
-
-        .search-prompt {
-            text-align: center;
-            padding: 60px 20px;
-            color: #8a9a8a;
-        }
-
-        .search-prompt i {
-            font-size: 4rem;
-            color: var(--primary-light);
-            opacity: 0.3;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .search-prompt h3 {
-            font-size: 1.4rem;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-        }
-
-        .search-prompt p {
-            font-size: 1rem;
-            max-width: 400px;
-            margin: 0 auto;
         }
 
         .result-card {
@@ -884,7 +862,311 @@
         }
 
         /* ============================================ */
-        /* 8. ABOUT Y CONTACTO */
+        /* 8. EVENTOS */
+        /* ============================================ */
+        .events-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 0 20px 30px;
+            padding: 40px;
+        }
+
+        .events-section h2 {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .events-section .section-subtitle {
+            text-align: center;
+            color: #6b7a6b;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .calendar-wrapper {
+            background: var(--event-light);
+            border-radius: var(--radius);
+            padding: 25px;
+            border: 1px solid #fbe9e7;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-header h3 {
+            color: var(--event-orange);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .btn-show-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            background: var(--event-orange);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-show-all:hover {
+            background: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3);
+        }
+
+        .btn-show-all i {
+            font-size: 0.75rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .calendar-grid .day-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #8a9a8a;
+            text-align: center;
+            padding: 8px 0;
+            text-transform: uppercase;
+        }
+
+        .calendar-grid .day {
+            text-align: center;
+            padding: 8px 4px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .calendar-grid .day.empty {
+            background: transparent;
+        }
+
+        .calendar-grid .day.event-day {
+            background: var(--event-orange);
+            color: var(--white);
+            font-weight: 600;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .calendar-grid .day.event-day:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.3);
+        }
+
+        .calendar-grid .day.today {
+            border: 2px solid var(--primary-green);
+        }
+
+        .calendar-grid .day.event-day::after {
+            content: '●';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.5rem;
+            color: var(--white);
+        }
+
+        .calendar-month {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-month button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--event-orange);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .calendar-month button:hover {
+            background: rgba(245, 124, 0, 0.1);
+        }
+
+        .calendar-month span {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .event-locations {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .event-locations h3 {
+            color: var(--event-orange);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .event-locations .events-counter {
+            font-size: 0.85rem;
+            color: #8a9a8a;
+            font-weight: 400;
+        }
+
+        .event-card {
+            background: #fafffa;
+            border: 1px solid #e8f0e8;
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            transition: var(--transition);
+            border-left: 4px solid var(--event-orange);
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .event-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .event-card .event-date {
+            display: inline-block;
+            background: var(--event-orange);
+            color: var(--white);
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .event-card h4 {
+            color: var(--text-dark);
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+        }
+
+        .event-card .event-address {
+            font-size: 0.9rem;
+            color: #5a6a5a;
+            margin-bottom: 4px;
+        }
+
+        .event-card .event-time {
+            font-size: 0.85rem;
+            color: #6b7a6b;
+        }
+
+        .event-card .event-badge {
+            display: inline-block;
+            background: #fff3e0;
+            color: var(--event-orange);
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 8px;
+            margin-right: 5px;
+        }
+
+        .events-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e8f0e8;
+            flex-wrap: wrap;
+        }
+
+        .events-pagination button {
+            padding: 8px 18px;
+            border: 1px solid #dce8dc;
+            border-radius: 50px;
+            background: var(--white);
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .events-pagination button:hover:not(:disabled) {
+            background: var(--event-orange);
+            color: var(--white);
+            border-color: var(--event-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 124, 0, 0.25);
+        }
+
+        .events-pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .events-pagination .page-info {
+            font-size: 0.9rem;
+            color: #6b7a6b;
+            font-weight: 500;
+        }
+
+        .events-pagination .page-info span {
+            color: var(--event-orange);
+            font-weight: 700;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8a9a8a;
+        }
+
+        .no-events i {
+            font-size: 3rem;
+            color: var(--event-orange);
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        /* ============================================ */
+        /* 9. ABOUT */
         /* ============================================ */
         .about-section {
             background: var(--white);
@@ -927,6 +1209,9 @@
             margin-bottom: 10px;
         }
 
+        /* ============================================ */
+        /* 10. CONTACTO */
+        /* ============================================ */
         .contact-section {
             background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
             border-radius: var(--radius);
@@ -956,6 +1241,162 @@
             color: var(--white);
         }
 
+        /* ============================================ */
+        /* 11. SERVICIOS - NUEVA SECCIÓN */
+        /* ============================================ */
+        .services-section {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 0 20px 30px;
+            padding: 40px;
+        }
+
+        .services-section h2 {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .services-section .section-subtitle {
+            text-align: center;
+            color: #6b7a6b;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .service-card {
+            background: #fafffa;
+            border: 1px solid #e8f0e8;
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-light);
+        }
+
+        .service-card .service-image {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-card .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.05);
+        }
+
+        .service-card .service-image .service-icon-overlay {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: var(--primary-green);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .service-card .service-content {
+            padding: 25px;
+        }
+
+        .service-card .service-content h3 {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-card .service-content h3 .badge-service {
+            font-size: 0.65rem;
+            background: var(--primary-light);
+            color: var(--white);
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .service-card .service-content p {
+            color: #5a6a5a;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .service-card .service-content .service-features {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 0 0;
+        }
+
+        .service-card .service-content .service-features li {
+            padding: 6px 0;
+            color: #4a5a4a;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #f0f5f0;
+        }
+
+        .service-card .service-content .service-features li:last-child {
+            border-bottom: none;
+        }
+
+        .service-card .service-content .service-features li i {
+            color: var(--primary-green);
+            font-size: 0.8rem;
+            width: 20px;
+        }
+
+        .service-card .service-content .btn-service {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 10px 24px;
+            background: var(--primary-green);
+            color: var(--white);
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .service-card .service-content .btn-service:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        /* ============================================ */
+        /* 12. FOOTER */
+        /* ============================================ */
         .footer {
             background: var(--text-dark);
             color: var(--text-light);
@@ -970,10 +1411,18 @@
         }
 
         /* ============================================ */
-        /* 9. RESPONSIVIDAD */
+        /* 13. RESPONSIVIDAD */
         /* ============================================ */
         @media (max-width: 1024px) {
             .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
@@ -1074,8 +1523,10 @@
             .search-section,
             .results-section,
             .process-section,
+            .events-section,
             .about-section,
-            .contact-section {
+            .contact-section,
+            .services-section {
                 margin: 0 10px 20px;
                 padding: 25px 15px;
             }
@@ -1156,12 +1607,43 @@
                 max-width: 100%;
             }
 
-            .search-prompt {
-                padding: 40px 15px;
+            .events-grid {
+                grid-template-columns: 1fr;
             }
 
-            .search-prompt i {
-                font-size: 3rem;
+            .calendar-grid .day {
+                padding: 6px 2px;
+                font-size: 0.75rem;
+            }
+
+            .events-pagination {
+                gap: 8px;
+            }
+
+            .events-pagination button {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .btn-show-all {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .service-card .service-image {
+                height: 180px;
             }
         }
 
@@ -1208,6 +1690,27 @@
             .loader-logo-ring {
                 width: 75px;
                 height: 75px;
+            }
+
+            .calendar-grid .day {
+                padding: 4px 1px;
+                font-size: 0.65rem;
+            }
+
+            .calendar-grid .day-name {
+                font-size: 0.6rem;
+            }
+
+            .event-card {
+                padding: 14px 16px;
+            }
+
+            .service-card .service-content {
+                padding: 18px;
+            }
+
+            .service-card .service-content h3 {
+                font-size: 1.1rem;
             }
         }
 
@@ -1263,8 +1766,10 @@
             <li><a href="#inicio"><i class="fas fa-home"></i> Inicio</a></li>
             <li><a href="#buscador"><i class="fas fa-search"></i> Buscar</a></li>
             <li><a href="#proceso"><i class="fas fa-recycle"></i> Proceso</a></li>
+            <li><a href="#eventos"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
             <li><a href="#about"><i class="fas fa-info-circle"></i> Sobre</a></li>
             <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+            <li><a href="#servicios"><i class="fas fa-handshake"></i> Servicios</a></li>
         </ul>
     </nav>
 
@@ -1311,13 +1816,7 @@
                 <div class="results-header">
                     <h3>Centros de reciclaje <span id="resultCount"></span></h3>
                 </div>
-                <div id="resultsContainer" class="results-grid">
-                    <div class="search-prompt" id="searchPrompt">
-                        <i class="fas fa-search"></i>
-                        <h3>Busca centros de reciclaje</h3>
-                        <p>Ingresa una colonia o código postal, o selecciona un tipo de material para encontrar centros cercanos.</p>
-                    </div>
-                </div>
+                <div id="resultsContainer" class="results-grid"></div>
                 <div id="noResults" class="no-results" style="display: none;">
                     <i class="fas fa-search fa-3x"></i>
                     <p>No encontramos centros en esa zona. <br> Intenta con otra colonia o código postal.</p>
@@ -1371,6 +1870,51 @@
             </div>
         </section>
 
+        <!-- SECCIÓN: EVENTOS -->
+        <section id="eventos" class="events-section">
+            <div class="container">
+                <h2><i class="fas fa-calendar-alt" style="color: var(--event-orange);"></i> Eventos y campañas</h2>
+                <p class="section-subtitle">Conoce los próximos eventos de recolección de residuos electrónicos y únete a la causa.</p>
+
+                <div class="events-grid">
+                    <div class="calendar-wrapper">
+                        <div class="calendar-header">
+                            <h3><i class="fas fa-calendar-day"></i> Calendario de eventos</h3>
+                            <button class="btn-show-all" id="btnShowAllEvents" title="Mostrar todos los eventos">
+                                <i class="fas fa-list"></i> Mostrar todos
+                            </button>
+                        </div>
+                        <div class="calendar-month">
+                            <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                            <span id="monthYear"></span>
+                            <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Generado por JavaScript -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="event-locations">
+                            <h3>
+                                <i class="fas fa-map-marker-alt"></i> Ubicaciones de contenedores
+                                <span class="events-counter" id="eventsCounter"></span>
+                            </h3>
+                            <div id="eventLocationsList">
+                                <div class="no-events">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <p>Cargando eventos...</p>
+                                </div>
+                            </div>
+                            <div class="events-pagination" id="eventsPagination">
+                                <!-- Generado por JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SECCIÓN: SOBRE NOSOTROS -->
         <section id="about" class="about-section">
             <div class="container">
@@ -1404,6 +1948,86 @@
             </div>
         </section>
 
+        <!-- ============================================ -->
+        <!-- SECCIÓN: SERVICIOS - NUEVA -->
+        <!-- ============================================ -->
+        <section id="servicios" class="services-section">
+            <div class="container">
+                <h2><i class="fas fa-handshake" style="color: var(--primary-green);"></i> Nuestros Servicios</h2>
+                <p class="section-subtitle">Ofrecemos soluciones integrales para la gestión de materiales reciclables, desde la compra hasta la venta y administración.</p>
+
+                <div class="services-grid">
+
+                    <!-- Servicio 1: COMPRA DE MATERIAL -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&h=400&fit=crop&crop=center" alt="Compra de material reciclado">
+                            <div class="service-icon-overlay">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h3>COMPRA DE MATERIAL <span class="badge-service">Popular</span></h3>
+                            <p>Apoyo ideal en la compra de material reciclado en general. Facilitamos la adquisición de materiales reciclables para tu empresa o proyecto, garantizando precios justos y transparencia en cada transacción.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check-circle"></i> Evaluación y cotización de materiales</li>
+                                <li><i class="fas fa-check-circle"></i> Compra de papel, cartón, plástico y vidrio</li>
+                                <li><i class="fas fa-check-circle"></i> Precios competitivos y pago puntual</li>
+                                <li><i class="fas fa-check-circle"></i> Logística y recolección a domicilio</li>
+                                <li><i class="fas fa-check-circle"></i> Asesoría para maximizar el valor de tus residuos</li>
+                            </ul>
+                            <button class="btn-service"><i class="fas fa-phone"></i> Solicitar cotización</button>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 2: VENTA DE MATERIAL -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop&crop=center" alt="Venta de material reciclado">
+                            <div class="service-icon-overlay">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h3>VENTA DE MATERIAL</h3>
+                            <p>Facilitamos el proceso de venta del material reciclado adquirido por el cliente. Conectamos a generadores de residuos con compradores responsables, agilizando todo el proceso comercial.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check-circle"></i> Gestión completa de la cadena de venta</li>
+                                <li><i class="fas fa-check-circle"></i> Conexión con compradores certificados</li>
+                                <li><i class="fas fa-check-circle"></i> Seguimiento y control de inventario</li>
+                                <li><i class="fas fa-check-circle"></i> Optimización de tiempos y costos</li>
+                                <li><i class="fas fa-check-circle"></i> Reportes detallados de ventas</li>
+                            </ul>
+                            <button class="btn-service"><i class="fas fa-chart-line"></i> Conocer más</button>
+                        </div>
+                    </div>
+
+                    <!-- Servicio 3: ADMINISTRACIÓN -->
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&crop=center" alt="Administración de reciclaje">
+                            <div class="service-icon-overlay">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h3>ADMINISTRACIÓN</h3>
+                            <p>Ayudamos al cliente a ordenar y transparentar su administración de materiales reciclables. Implementamos sistemas de gestión que permiten un control total y eficiente de los procesos.</p>
+                            <ul class="service-features">
+                                <li><i class="fas fa-check-circle"></i> Control de inventario de materiales</li>
+                                <li><i class="fas fa-check-circle"></i> Sistema de trazabilidad y auditoría</li>
+                                <li><i class="fas fa-check-circle"></i> Optimización de procesos internos</li>
+                                <li><i class="fas fa-check-circle"></i> Capacitación para tu equipo de trabajo</li>
+                                <li><i class="fas fa-check-circle"></i> Indicadores de desempeño (KPIs) ambientales</li>
+                            </ul>
+                            <button class="btn-service"><i class="fas fa-file-alt"></i> Solicitar asesoría</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
         <!-- FOOTER -->
         <footer class="footer">
             <div class="container">
@@ -1414,15 +2038,10 @@
     </main>
 
     <!-- ============================================ -->
-    <!-- JAVASCRIPT CORREGIDO - Con timestamp para evitar caché -->
+    <!-- JAVASCRIPT -->
     <!-- ============================================ -->
     <script>
-        // Versión del script para evitar caché
-        console.log('Recyclum v2.0 - Cargando...');
-
         document.addEventListener('DOMContentLoaded', function() {
-
-            console.log('DOM cargado - Iniciando Recyclum');
 
             // ==========================================
             // 1. PRELOADER
@@ -1456,7 +2075,6 @@
                 }
                 setTimeout(function() {
                     preloader.classList.add('hidden');
-                    console.log('Preloader ocultado');
                 }, 400);
             }, 2800);
 
@@ -1496,12 +2114,13 @@
             });
 
             // ==========================================
-            // 3. CARGA DE DATOS (JSON)
+            // 3. CARGA DE DATOS - CENTROS DE RECICLAJE
             // ==========================================
             let centrosData = [];
             let currentFilter = 'todos';
 
-            const JSON_URL = 'data/centros-reciclaje.json';
+            const JSON_URL_CENTROS = 'data/centros-reciclaje.json';
+            const resultsSection = document.getElementById('resultados');
             const resultsContainer = document.getElementById('resultsContainer');
             const noResults = document.getElementById('noResults');
             const resultCount = document.getElementById('resultCount');
@@ -1573,39 +2192,22 @@
                 ];
             }
 
-            function showSearchPrompt() {
-                if (resultsContainer) {
-                    resultsContainer.innerHTML = `
-                        <div class="search-prompt">
-                            <i class="fas fa-search"></i>
-                            <h3>Busca centros de reciclaje</h3>
-                            <p>Ingresa una colonia o código postal, o selecciona un tipo de material para encontrar centros cercanos.</p>
-                        </div>
-                    `;
-                }
-                if (noResults) noResults.style.display = 'none';
-                if (resultCount) resultCount.textContent = '';
-                console.log('Mostrando prompt de búsqueda');
-            }
-
             function loadCentros() {
-                showSearchPrompt();
+                resultsSection.classList.remove('visible');
 
-                console.log('Cargando datos desde:', JSON_URL);
-
-                fetch(JSON_URL)
+                fetch(JSON_URL_CENTROS)
                     .then(response => {
                         if (!response.ok) throw new Error('No se pudo cargar el JSON');
                         return response.json();
                     })
                     .then(data => {
                         centrosData = data;
-                        console.log('Datos cargados correctamente:', centrosData.length, 'centros');
+                        console.log('Centros cargados:', centrosData.length);
                     })
                     .catch((error) => {
-                        console.warn('Error al cargar JSON, usando datos de ejemplo:', error);
+                        console.warn('Error al cargar centros, usando datos de ejemplo:', error);
                         centrosData = getFallbackData();
-                        console.log('Datos de ejemplo cargados:', centrosData.length, 'centros');
+                        console.log('Centros de ejemplo cargados:', centrosData.length);
                     });
             }
 
@@ -1613,16 +2215,15 @@
             // 4. RENDERIZADO DE RESULTADOS
             // ==========================================
             function renderResults(data) {
-                console.log('Renderizando', data.length, 'resultados');
-
                 if (data.length === 0) {
-                    if (resultsContainer) resultsContainer.innerHTML = '';
-                    if (noResults) noResults.style.display = 'block';
-                    if (resultCount) resultCount.textContent = '(0)';
+                    resultsContainer.innerHTML = '';
+                    noResults.style.display = 'block';
+                    resultCount.textContent = '(0)';
+                    resultsSection.classList.add('visible');
                     return;
                 }
 
-                if (noResults) noResults.style.display = 'none';
+                noResults.style.display = 'none';
                 let html = '';
                 data.forEach(item => {
                     const materiales = item.materiales.map(m =>
@@ -1664,29 +2265,23 @@
                     `;
                 });
 
-                if (resultsContainer) {
-                    resultsContainer.innerHTML = html;
-                }
-                if (resultCount) {
-                    resultCount.textContent = `(${data.length})`;
-                }
+                resultsContainer.innerHTML = html;
+                resultCount.textContent = `(${data.length})`;
+                resultsSection.classList.add('visible');
             }
 
             // ==========================================
-            // 5. BÚSQUEDA Y FILTROS (CORREGIDO)
+            // 5. BÚSQUEDA Y FILTROS
             // ==========================================
             function performSearch(query) {
-                console.log('Realizando búsqueda:', query, 'Filtro:', currentFilter);
-
                 const searchTerm = query.trim().toLowerCase();
 
                 if (centrosData.length === 0) {
-                    console.warn('No hay datos cargados aún');
                     return;
                 }
 
                 if (searchTerm === '' && currentFilter === 'todos') {
-                    showSearchPrompt();
+                    resultsSection.classList.remove('visible');
                     return;
                 }
 
@@ -1712,16 +2307,16 @@
                 }
 
                 if (results.length === 0) {
-                    if (resultsContainer) resultsContainer.innerHTML = '';
-                    if (noResults) noResults.style.display = 'block';
-                    if (resultCount) resultCount.textContent = '(0)';
+                    resultsContainer.innerHTML = '';
+                    noResults.style.display = 'block';
+                    resultCount.textContent = '(0)';
+                    resultsSection.classList.add('visible');
                     return;
                 }
 
                 renderResults(results);
             }
 
-            // Evento de búsqueda
             if (searchBtn) {
                 searchBtn.addEventListener('click', function() {
                     const query = searchInput ? searchInput.value : '';
@@ -1738,20 +2333,16 @@
                 });
             }
 
-            // Filtros por material
             document.querySelectorAll('.filter-tag').forEach(tag => {
-                tag.addEventListener('click', function(e) {
-                    console.log('Filtro seleccionado:', this.dataset.filter);
-                    
+                tag.addEventListener('click', function() {
                     document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                     
                     currentFilter = this.dataset.filter;
-
                     const query = searchInput ? searchInput.value : '';
 
                     if (currentFilter === 'todos' && query.trim() === '') {
-                        showSearchPrompt();
+                        resultsSection.classList.remove('visible');
                         return;
                     }
 
@@ -1760,7 +2351,320 @@
             });
 
             // ==========================================
-            // 6. EFECTO DE SCROLL EN EL MENÚ
+            // 6. EVENTOS
+            // ==========================================
+            let eventosData = [];
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+            let currentPage = 1;
+            let isShowingAll = false;
+            const EVENTS_PER_PAGE = 3;
+
+            const JSON_URL_EVENTOS = 'data/eventos.json';
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthYearSpan = document.getElementById('monthYear');
+            const eventLocationsList = document.getElementById('eventLocationsList');
+            const eventsPagination = document.getElementById('eventsPagination');
+            const eventsCounter = document.getElementById('eventsCounter');
+            const btnShowAll = document.getElementById('btnShowAllEvents');
+
+            function getEventosFallback() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth();
+                
+                return [
+                    {
+                        id: 1,
+                        titulo: "Recolección de Electrónicos - Centro",
+                        fecha: `${year}-${String(month + 1).padStart(2, '0')}-${String(15).padStart(2, '0')}`,
+                        hora: "10:00 - 14:00",
+                        direccion: "Plaza de Armas, Centro Histórico",
+                        colonia: "Centro",
+                        cp: "76000",
+                        lat: 20.5888,
+                        lng: -100.3898,
+                        tipo: "electrónico"
+                    },
+                    {
+                        id: 2,
+                        titulo: "Campaña de Reciclaje - Jurica",
+                        fecha: `${year}-${String(month + 1).padStart(2, '0')}-${String(22).padStart(2, '0')}`,
+                        hora: "09:00 - 13:00",
+                        direccion: "Parque Jurica, Av. Universidad",
+                        colonia: "Jurica",
+                        cp: "76100",
+                        lat: 20.6819,
+                        lng: -100.4463,
+                        tipo: "electrónico, pilas"
+                    },
+                    {
+                        id: 3,
+                        titulo: "Reciclatón - El Marqués",
+                        fecha: `${year}-${String(month + 2).padStart(2, '0')}-${String(5).padStart(2, '0')}`,
+                        hora: "08:00 - 15:00",
+                        direccion: "Plaza Principal, El Marqués",
+                        colonia: "El Marqués",
+                        cp: "76240",
+                        lat: 20.6265,
+                        lng: -100.2738,
+                        tipo: "electrónico, papel, plástico"
+                    },
+                    {
+                        id: 4,
+                        titulo: "Recolección de Residuos Electrónicos - Cimatario",
+                        fecha: `${year}-${String(month + 2).padStart(2, '0')}-${String(18).padStart(2, '0')}`,
+                        hora: "10:00 - 14:00",
+                        direccion: "Calle Cimatario 55, Col. Cimatario",
+                        colonia: "Cimatario",
+                        cp: "76030",
+                        lat: 20.5714,
+                        lng: -100.3776,
+                        tipo: "electrónico, pilas"
+                    },
+                    {
+                        id: 5,
+                        titulo: "Reciclaje de Electrónicos - Carretas",
+                        fecha: `${year}-${String(month + 3).padStart(2, '0')}-${String(2).padStart(2, '0')}`,
+                        hora: "10:00 - 14:00",
+                        direccion: "Blvd. Bernardo Quintana 1500, Col. Carretas",
+                        colonia: "Carretas",
+                        cp: "76020",
+                        lat: 20.5961,
+                        lng: -100.4063,
+                        tipo: "electrónico, metal"
+                    },
+                    {
+                        id: 6,
+                        titulo: "Campaña de Reciclaje - Álamos",
+                        fecha: `${year}-${String(month + 3).padStart(2, '0')}-${String(15).padStart(2, '0')}`,
+                        hora: "09:00 - 13:00",
+                        direccion: "Calle Álamos 222, Col. Álamos",
+                        colonia: "Álamos",
+                        cp: "76148",
+                        lat: 20.6173,
+                        lng: -100.3805,
+                        tipo: "electrónico, papel, plástico"
+                    },
+                    {
+                        id: 7,
+                        titulo: "Reciclatón - Parque Industrial",
+                        fecha: `${year}-${String(month + 4).padStart(2, '0')}-${String(10).padStart(2, '0')}`,
+                        hora: "08:00 - 15:00",
+                        direccion: "Parque Industrial Querétaro, Nave 12",
+                        colonia: "Parque Industrial",
+                        cp: "76220",
+                        lat: 20.6492,
+                        lng: -100.4116,
+                        tipo: "electrónico, metal, plástico"
+                    }
+                ];
+            }
+
+            function loadEventos() {
+                fetch(JSON_URL_EVENTOS)
+                    .then(response => {
+                        if (!response.ok) throw new Error('No se pudo cargar eventos.json');
+                        return response.json();
+                    })
+                    .then(data => {
+                        eventosData = data;
+                        console.log('Eventos cargados:', eventosData.length);
+                        renderCalendar(currentMonth, currentYear);
+                        renderEventLocationsWithPagination();
+                    })
+                    .catch((error) => {
+                        console.warn('Error al cargar eventos, usando datos de ejemplo:', error);
+                        eventosData = getEventosFallback();
+                        console.log('Eventos de ejemplo cargados:', eventosData.length);
+                        renderCalendar(currentMonth, currentYear);
+                        renderEventLocationsWithPagination();
+                    });
+            }
+
+            function renderCalendar(month, year) {
+                const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                monthYearSpan.textContent = `${monthNames[month]} ${year}`;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+
+                let html = '';
+                const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+                dayNames.forEach(name => {
+                    html += `<div class="day-name">${name}</div>`;
+                });
+
+                for (let i = 0; i < firstDay; i++) {
+                    html += `<div class="day empty"></div>`;
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const isEventDay = eventosData.some(e => e.fecha === dateStr);
+                    const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
+                    
+                    let classes = 'day';
+                    if (isEventDay) classes += ' event-day';
+                    if (isToday) classes += ' today';
+                    
+                    html += `<div class="${classes}" data-date="${dateStr}" title="${isEventDay ? 'Evento este día' : ''}">${day}</div>`;
+                }
+
+                calendarGrid.innerHTML = html;
+
+                calendarGrid.querySelectorAll('.day.event-day').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        const eventosDelDia = eventosData.filter(e => e.fecha === date);
+                        if (eventosDelDia.length > 0) {
+                            currentPage = 1;
+                            isShowingAll = false;
+                            btnShowAll.innerHTML = '<i class="fas fa-list"></i> Mostrar todos';
+                            renderEventLocationsWithPagination(eventosDelDia);
+                            document.querySelector('.event-locations').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                });
+            }
+
+            function renderEventLocationsWithPagination(filteredEvents = null) {
+                const events = filteredEvents || eventosData;
+                
+                if (events.length === 0) {
+                    eventLocationsList.innerHTML = `
+                        <div class="no-events">
+                            <i class="fas fa-calendar-times"></i>
+                            <p>No hay eventos programados próximamente.</p>
+                        </div>
+                    `;
+                    eventsPagination.innerHTML = '';
+                    eventsCounter.textContent = '';
+                    return;
+                }
+
+                const sortedEvents = [...events].sort((a, b) => a.fecha.localeCompare(b.fecha));
+                const totalPages = Math.ceil(sortedEvents.length / EVENTS_PER_PAGE);
+                
+                if (currentPage > totalPages) currentPage = totalPages;
+                if (currentPage < 1) currentPage = 1;
+
+                const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
+                const endIndex = Math.min(startIndex + EVENTS_PER_PAGE, sortedEvents.length);
+                const pageEvents = sortedEvents.slice(startIndex, endIndex);
+
+                eventsCounter.textContent = `(${sortedEvents.length} eventos)`;
+
+                let html = '';
+                pageEvents.forEach(event => {
+                    const fechaFormateada = event.fecha.split('-').reverse().join('/');
+                    const mapsUrl = event.lat && event.lng ? 
+                        `https://www.google.com/maps/search/?api=1&query=${event.lat},${event.lng}` :
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.direccion + ', Querétaro, México')}`;
+
+                    html += `
+                        <div class="event-card">
+                            <div class="event-date"><i class="far fa-calendar-alt"></i> ${fechaFormateada}</div>
+                            <h4>${event.titulo}</h4>
+                            <p class="event-address"><i class="fas fa-map-pin" style="color: #f57c00;"></i> ${event.direccion}</p>
+                            <p class="event-time"><i class="far fa-clock"></i> ${event.hora || 'Horario por confirmar'}</p>
+                            <div>
+                                ${event.tipo ? `<span class="event-badge"><i class="fas fa-tag"></i> ${event.tipo}</span>` : ''}
+                                ${event.colonia ? `<span class="event-badge"><i class="fas fa-location-dot"></i> ${event.colonia}</span>` : ''}
+                            </div>
+                            <div class="card-actions" style="margin-top: 10px; border-top: none; padding-top: 0;">
+                                <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps"><i class="fas fa-map-marked-alt"></i> Ver ubicación</a>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                eventLocationsList.innerHTML = html;
+                renderPagination(totalPages, sortedEvents.length);
+            }
+
+            function renderPagination(totalPages, totalEvents) {
+                if (totalPages <= 1) {
+                    eventsPagination.innerHTML = '';
+                    return;
+                }
+
+                let paginationHtml = `
+                    <button id="prevPage" ${currentPage === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span class="page-info">Página <span>${currentPage}</span> de <span>${totalPages}</span></span>
+                    <button id="nextPage" ${currentPage === totalPages ? 'disabled' : ''}>
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+
+                eventsPagination.innerHTML = paginationHtml;
+
+                const prevBtn = document.getElementById('prevPage');
+                const nextBtn = document.getElementById('nextPage');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            renderEventLocationsWithPagination();
+                            document.querySelector('.event-locations').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        const totalPagesCalc = Math.ceil(eventosData.length / EVENTS_PER_PAGE);
+                        if (currentPage < totalPagesCalc) {
+                            currentPage++;
+                            renderEventLocationsWithPagination();
+                            document.querySelector('.event-locations').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                }
+            }
+
+            if (btnShowAll) {
+                btnShowAll.addEventListener('click', function() {
+                    currentPage = 1;
+                    isShowingAll = true;
+                    this.innerHTML = '<i class="fas fa-check"></i> Mostrando todos';
+                    
+                    renderEventLocationsWithPagination(eventosData);
+                    document.querySelector('.event-locations').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    setTimeout(() => {
+                        if (isShowingAll) {
+                            this.innerHTML = '<i class="fas fa-list"></i> Mostrar todos';
+                            isShowingAll = false;
+                        }
+                    }, 2000);
+                });
+            }
+
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            // ==========================================
+            // 7. EFECTO DE SCROLL EN EL MENÚ
             // ==========================================
             window.addEventListener('scroll', function() {
                 const navbar = document.getElementById('navbar');
@@ -1776,18 +2680,21 @@
             });
 
             // ==========================================
-            // 7. INICIALIZACIÓN
+            // 8. BOTONES DE SERVICIOS
             // ==========================================
-            console.log('Inicializando Recyclum...');
+            document.querySelectorAll('.service-card .btn-service').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.service-card');
+                    const title = card.querySelector('h3')?.textContent?.trim() || 'Servicio';
+                    alert(`📋 Gracias por tu interés en "${title}".\n\nUn asesor se pondrá en contacto contigo pronto.\n\n📞 También puedes llamarnos al: 442 123 4567`);
+                });
+            });
+
+            // ==========================================
+            // 9. INICIALIZACIÓN
+            // ==========================================
             loadCentros();
-
-            // Forzar que el filtro "Todos" esté activo
-            const todoFilter = document.querySelector('.filter-tag[data-filter="todos"]');
-            if (todoFilter) {
-                todoFilter.classList.add('active');
-            }
-
-            console.log('Recyclum iniciado correctamente');
+            loadEventos();
 
         });
     </script>
