@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "nombre": "Centro de Reciclaje Centro",
+    "direccion": "Av. 5 de Febrero 123, Col. Centro",
+    "colonia": "Centro",
+    "cp": "76000",
+    "telefono": "4421234567",
+    "whatsapp": "4421234567",
+    "lat": 20.5888,
+    "lng": -100.3898,
+    "materiales": ["papel", "cartón", "plástico"]
+  },
+  {
+    "id": 2,
+    "nombre": "EcoRecicla Jurica",
+    "direccion": "Paseo de la República 456, Jurica",
+    "colonia": "Jurica",
+    "cp": "76100",
+    "telefono": "4429876543",
+    "whatsapp": "4429876543",
+    "lat": 20.6819,
+    "lng": -100.4463,
+    "materiales": ["vidrio", "plástico", "metal"]
+  },
+  {
+    "id": 3,
+    "nombre": "Reciclados El Marqués",
+    "direccion": "Carretera a Tlacote 789, El Marqués",
+    "colonia": "El Marqués",
+    "cp": "76240",
+    "telefono": "4424567890",
+    "whatsapp": "4424567890",
+    "lat": 20.6265,
+    "lng": -100.2738,
+    "materiales": ["electrónico", "pilas", "plástico"]
+  },
+  {
+    "id": 4,
+    "nombre": "Punto Verde Álamos",
+    "direccion": "Calle Álamos 222, Col. Álamos",
+    "colonia": "Álamos",
+    "cp": "76148",
+    "telefono": "4422345678",
+    "whatsapp": "4422345678",
+    "lat": 20.6173,
+    "lng": -100.3805,
+    "materiales": ["orgánico", "papel", "cartón"]
+  },
+  {
+    "id": 5,
+    "nombre": "ReciclaTec",
+    "direccion": "Blvd. Bernardo Quintana 1500, Col. Carretas",
+    "colonia": "Carretas",
+    "cp": "76020",
+    "telefono": "4423456789",
+    "whatsapp": "4423456789",
+    "lat": 20.5961,
+    "lng": -100.4063,
+    "materiales": ["plástico", "electrónico", "metal"]
+  },
+  {
+    "id": 6,
+    "nombre": "EcoPunto Cimatario",
+    "direccion": "Calle Cimatario 55, Col. Cimatario",
+    "colonia": "Cimatario",
+    "cp": "76030",
+    "telefono": "4425678901",
+    "whatsapp": "4425678901",
+    "lat": 20.5714,
+    "lng": -100.3776,
+    "materiales": ["papel", "vidrio", "orgánico"]
+  },
+  {
+    "id": 7,
+    "nombre": "Reciclaje Industrial Querétaro",
+    "direccion": "Parque Industrial Querétaro, Nave 12",
+    "colonia": "Parque Industrial",
+    "cp": "76220",
+    "telefono": "4426789012",
+    "whatsapp": "4426789012",
+    "lat": 20.6492,
+    "lng": -100.4116,
+    "materiales": ["metal", "plástico", "electrónico"]
+  }
+]

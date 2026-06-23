@@ -1,0 +1,32 @@
+[
+  {
+    "nombre": "EcoEmpresas MX",
+    "logo": "https://dummyimage.com/140x60/2e7d32/ffffff?text=EcoEmpresas",
+    "url": "https://ecoempresas.mx"
+  },
+  {
+    "nombre": "Green Logistics",
+    "logo": "https://dummyimage.com/140x60/4caf50/ffffff?text=Green+Logistics",
+    "url": "https://greenlogistics.com"
+  },
+  {
+    "nombre": "Recicla Querétaro",
+    "logo": "https://dummyimage.com/140x60/1b5e20/ffffff?text=Recicla+Qro",
+    "url": "https://reciclaqro.mx"
+  },
+  {
+    "nombre": "Sustentabilidad MX",
+    "logo": "https://dummyimage.com/140x60/388e3c/ffffff?text=Sustentabilidad",
+    "url": "https://sustentabilidad.mx"
+  },
+  {
+    "nombre": "Basura Cero",
+    "logo": "https://dummyimage.com/140x60/00796b/ffffff?text=Basura+Cero",
+    "url": "https://basuracero.mx"
+  },
+  {
+    "nombre": "EcoTec Querétaro",
+    "logo": "https://dummyimage.com/140x60/43a047/ffffff?text=EcoTec",
+    "url": "https://ecotec.mx"
+  }
+]
