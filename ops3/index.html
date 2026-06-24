@@ -1,0 +1,4117 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Recyclum · Centros de Reciclaje en Querétaro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ============================================ */
+        /* 1. VARIABLES Y RESET */
+        /* ============================================ */
+        :root {
+            --primary-green: #2e7d32;
+            --primary-light: #4caf50;
+            --primary-dark: #1b5e20;
+            --primary-glow: rgba(76, 175, 80, 0.4);
+            --background: #e8f0e8;
+            --text-dark: #1e2a1e;
+            --text-light: #f0faf0;
+            --white: rgba(255, 255, 255, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --glass-blur: 20px;
+            --radius: 20px;
+            --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --nav-height: 70px;
+            --whatsapp-green: #25d366;
+            --whatsapp-dark: #128C7E;
+            --maps-blue: #4285F4;
+            --event-orange: #f57c00;
+            --gold: #f9a825;
+            --price-blue: #1565c0;
+            --price-light-blue: rgba(21, 101, 192, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #d4e4d4 0%, #e8f0e8 30%, #f0f7f0 60%, #dce8dc 100%);
+            color: var(--text-dark);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(76, 175, 80, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(46, 125, 50, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(27, 94, 32, 0.04) 0%, transparent 50%);
+            animation: liquidBg 25s ease-in-out infinite alternate;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes liquidBg {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(5%, 3%) scale(1.05) rotate(2deg); }
+            66% { transform: translate(-3%, 5%) scale(0.95) rotate(-2deg); }
+            100% { transform: translate(0, -3%) scale(1.02) rotate(1deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ============================================ */
+        /* 2. PRELOADER */
+        /* ============================================ */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            background: linear-gradient(135deg, #d4e4d4 0%, #e8f0e8 40%, #f0f7f0 100%);
+            overflow: hidden;
+        }
+
+        #preloader::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 175, 80, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(46, 125, 50, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(27, 94, 32, 0.04) 0%, transparent 70%);
+            animation: preloaderPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes preloaderPulse {
+            0% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+            100% { transform: scale(1.1) rotate(3deg); opacity: 1; }
+        }
+
+        .loader-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 50px 45px;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 400px;
+            width: 90%;
+            animation: contentAppear 0.8s ease-out;
+        }
+
+        @keyframes contentAppear {
+            0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .loader-logo {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .loader-logo-ring {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid rgba(46, 125, 50, 0.15);
+            animation: ringSpin 20s linear infinite;
+        }
+
+        .loader-logo-ring::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            opacity: 0.3;
+            box-shadow: 0 0 20px rgba(46, 125, 50, 0.2);
+        }
+
+        @keyframes ringSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-logo svg {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 4px 20px rgba(46, 125, 50, 0.15));
+        }
+
+        .loader-name {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-green), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .loader-name::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 20%;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+            border-radius: 2px;
+            animation: nameUnderline 2s ease-in-out infinite;
+        }
+
+        @keyframes nameUnderline {
+            0%, 100% { transform: scaleX(0.6); opacity: 0.3; }
+            50% { transform: scaleX(1); opacity: 1; }
+        }
+
+        .loader-subtitle {
+            font-size: 0.8rem;
+            color: #6b8a6b;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 400;
+            opacity: 0.6;
+        }
+
+        .loader-progress-bar {
+            width: 100%;
+            max-width: 240px;
+            height: 4px;
+            background: rgba(46, 125, 50, 0.12);
+            border-radius: 10px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(46, 125, 50, 0.08) 20%, transparent 40%);
+            animation: progressShimmer 1.5s ease-in-out infinite;
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+
+        .loader-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-green));
+            border-radius: 10px;
+            animation: progressFill 2.5s ease-in-out forwards;
+            position: relative;
+        }
+
+        .loader-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            filter: blur(4px);
+            border-radius: 10px;
+        }
+
+        @keyframes progressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .loader-percentage {
+            font-size: 0.75rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-top: 12px;
+            opacity: 0.5;
+            letter-spacing: 1px;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* ============================================ */
+        /* 3. MENÚ DE NAVEGACIÓN */
+        /* ============================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            z-index: 1001;
+            transition: var(--transition);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .navbar-logo i {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            -webkit-text-fill-color: var(--primary-green);
+            filter: drop-shadow(0 2px 12px rgba(46, 125, 50, 0.3));
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.03);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px 5px;
+            z-index: 1001;
+            background: none;
+            border: none;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: var(--text-dark);
+            border-radius: 3px;
+            transition: var(--transition);
+            transform-origin: center;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            list-style: none;
+            transition: var(--transition);
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: var(--transition);
+            font-size: 0.85rem;
+            position: relative;
+            background: transparent;
+            cursor: pointer;
+            border: none;
+        }
+
+        .nav-menu a i {
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            background: rgba(46, 125, 50, 0.15);
+            color: var(--primary-green);
+            transform: translateY(-2px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.08);
+        }
+
+        .nav-menu a:hover i {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .nav-menu a.active {
+            background: rgba(46, 125, 50, 0.2);
+            color: var(--primary-dark);
+            font-weight: 600;
+            box-shadow: 0 2px 20px rgba(46, 125, 50, 0.1);
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 30%;
+            width: 40%;
+            height: 2px;
+            background: var(--primary-green);
+            border-radius: 2px;
+        }
+
+        /* ============================================ */
+        /* 4. BOTONES FLOTANTES */
+        /* ============================================ */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .floating-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            color: var(--white);
+            font-size: 1.4rem;
+            text-decoration: none;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        .floating-btn-whatsapp {
+            background: rgba(37, 211, 102, 0.85);
+        }
+
+        .floating-btn-whatsapp:hover {
+            background: rgba(18, 140, 126, 0.9);
+        }
+
+        .floating-btn-top {
+            background: rgba(46, 125, 50, 0.8);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .floating-btn-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .floating-btn-top:hover {
+            background: rgba(27, 94, 32, 0.9);
+        }
+
+        .floating-btn .tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-btn .tooltip::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 6px solid rgba(0, 0, 0, 0.7);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .floating-btn:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .floating-btn-whatsapp .notification-dot {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 16px;
+            height: 16px;
+            background: #e53935;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ============================================ */
+        /* 5. CONTENEDOR DE DIAPOSITIVAS */
+        /* ============================================ */
+        .slides-wrapper {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            width: 100%;
+            height: calc(100vh - var(--nav-height) - 40px);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.92) translateY(30px);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            z-index: 10;
+        }
+
+        .slide .slide-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .slide::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .slide::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        /* ============================================ */
+        /* 6. HERO SECTION */
+        /* ============================================ */
+        .hero-slide {
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+
+        .hero-video-poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            display: none;
+        }
+
+        .hero-slide .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.2) 100%);
+            z-index: 1;
+            backdrop-filter: blur(2px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px 8%;
+            color: var(--white);
+            text-align: left;
+            width: 100%;
+        }
+
+        .hero-content .hero-badge {
+            display: inline-block;
+            background: rgba(46, 125, 50, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+        }
+
+        .hero-content .hero-badge i {
+            margin-right: 6px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content h1 .highlight {
+            color: var(--primary-light);
+            position: relative;
+        }
+
+        .hero-content h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-light);
+            opacity: 0.5;
+            border-radius: 2px;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 500px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-content .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(46, 125, 50, 0.85);
+            backdrop-filter: blur(15px);
+            color: var(--white);
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(46, 125, 50, 0.3);
+            cursor: pointer;
+        }
+
+        .hero-content .btn-primary:hover {
+            background: rgba(27, 94, 32, 0.9);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 48px rgba(46, 125, 50, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ============================================ */
+        /* 7. SOCIOS COMERCIALES */
+        /* ============================================ */
+        .partners-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 14px 20px;
+            text-align: center;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .partners-section .partners-title {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #6b8a6b;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .partners-section .partners-title i {
+            color: var(--primary-green);
+            margin-right: 6px;
+        }
+
+        .partners-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px 20px;
+        }
+
+        .partner-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            opacity: 0.6;
+            filter: grayscale(0.3);
+        }
+
+        .partner-item:hover {
+            opacity: 1;
+            filter: grayscale(0);
+            transform: scale(1.08);
+        }
+
+        .partner-item img {
+            max-height: 40px;
+            max-width: 90px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: var(--transition);
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.05));
+        }
+
+        .partner-item .partner-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            min-width: 60px;
+            min-height: 30px;
+            color: #6b7a6b;
+            font-size: 0.6rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .partners-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #8a9a8a;
+            padding: 6px 0;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================ */
+        /* 8. BUSCADOR - CENTROS DE RECICLAJE */
+        /* ============================================ */
+        .search-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 16px 22px;
+            text-align: center;
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .search-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .search-section h2 i {
+            color: var(--primary-green);
+        }
+
+        .search-section > p {
+            font-size: 0.8rem;
+            color: #6b7a6b;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .search-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-width: 550px;
+            margin: 8px auto;
+            flex-shrink: 0;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 9px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            min-width: 140px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--text-dark);
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.12);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        #searchInput::placeholder {
+            color: rgba(30, 42, 30, 0.4);
+        }
+
+        #searchBtn {
+            padding: 9px 20px;
+            background: rgba(46, 125, 50, 0.85);
+            backdrop-filter: blur(15px);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        #searchBtn:hover {
+            background: rgba(27, 94, 32, 0.9);
+            transform: scale(1.03);
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.2);
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .filter-tag {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            user-select: none;
+        }
+
+        .filter-tag:hover {
+            background: rgba(76, 175, 80, 0.25);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .filter-tag.active {
+            background: rgba(46, 125, 50, 0.8);
+            color: var(--white);
+            border-color: rgba(46, 125, 50, 0.5);
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.15);
+        }
+
+        /* ============================================ */
+        /* 9. RESULTADOS - CENTROS */
+        /* ============================================ */
+        .results-container {
+            margin-top: 10px;
+            display: none;
+            flex: 1;
+            min-height: 0;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .results-container.visible {
+            display: flex;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .results-header h3 {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .results-header h3 span {
+            font-weight: 400;
+            color: #6b7a6b;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 10px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 4px;
+            align-content: start;
+        }
+
+        .results-grid::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .results-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .results-grid::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            transition: var(--transition);
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(76, 175, 80, 0.3);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .result-card h4 {
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .result-card .address {
+            font-size: 0.75rem;
+            color: #4a5a4a;
+            margin-bottom: 3px;
+        }
+
+        .result-card .badge {
+            display: inline-block;
+            background: rgba(224, 236, 224, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 1px 8px;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-right: 3px;
+            margin-top: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-maps, .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            color: var(--white);
+        }
+
+        .btn-maps {
+            background: rgba(66, 133, 244, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-maps:hover {
+            background: rgba(51, 103, 214, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .btn-whatsapp {
+            background: rgba(37, 211, 102, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-whatsapp:hover {
+            background: rgba(18, 140, 126, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px 0;
+            color: #6b7a6b;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .no-results i {
+            color: var(--primary-light);
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+
+        /* ============================================ */
+        /* 10. PRECIOS - COMPRA/VENTA (ACTUALIZADO) */
+        /* ============================================ */
+        .prices-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 16px 22px;
+            text-align: center;
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .prices-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .prices-section h2 i {
+            color: var(--gold);
+        }
+
+        .prices-section > p {
+            font-size: 0.8rem;
+            color: #6b7a6b;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .prices-search-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-width: 550px;
+            margin: 8px auto;
+            flex-shrink: 0;
+        }
+
+        .prices-search-box input {
+            flex: 1;
+            padding: 9px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            min-width: 140px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--text-dark);
+        }
+
+        .prices-search-box input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(249, 168, 37, 0.15);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .prices-search-box input::placeholder {
+            color: rgba(30, 42, 30, 0.4);
+        }
+
+        .prices-search-box button {
+            padding: 9px 20px;
+            background: rgba(249, 168, 37, 0.85);
+            backdrop-filter: blur(15px);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .prices-search-box button:hover {
+            background: rgba(245, 155, 0, 0.9);
+            transform: scale(1.03);
+            box-shadow: 0 4px 20px rgba(249, 168, 37, 0.2);
+        }
+
+        .prices-filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .prices-filter-tag {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .prices-filter-tag:hover {
+            background: rgba(249, 168, 37, 0.2);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .prices-filter-tag.active {
+            background: rgba(249, 168, 37, 0.8);
+            color: var(--white);
+            border-color: rgba(249, 168, 37, 0.5);
+            box-shadow: 0 4px 20px rgba(249, 168, 37, 0.15);
+        }
+
+        .prices-filter-tag i {
+            font-size: 0.65rem;
+        }
+
+        .prices-results-container {
+            margin-top: 10px;
+            display: none;
+            flex: 1;
+            min-height: 0;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .prices-results-container.visible {
+            display: flex;
+        }
+
+        .prices-results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .prices-results-header h3 {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .prices-results-header h3 span {
+            font-weight: 400;
+            color: #6b7a6b;
+        }
+
+        .prices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 4px;
+            align-content: start;
+        }
+
+        .prices-grid::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .prices-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .prices-grid::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .price-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            transition: var(--transition);
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        .price-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(249, 168, 37, 0.3);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .price-card .price-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .price-card .price-material {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .price-card .price-icon {
+            font-size: 1.4rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .price-card .price-icon.buy {
+            color: var(--primary-green);
+        }
+
+        .price-card .price-icon.sell {
+            color: var(--price-blue);
+        }
+
+        .price-card .price-amount {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--price-blue);
+            margin-bottom: 4px;
+        }
+
+        .price-card .price-amount .currency {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6b7a6b;
+        }
+
+        .price-card .price-weight {
+            font-size: 0.75rem;
+            color: #6b7a6b;
+            margin-bottom: 6px;
+        }
+
+        .price-card .price-type {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .price-card .price-type.buy {
+            background: rgba(46, 125, 50, 0.2);
+            color: var(--primary-green);
+        }
+
+        .price-card .price-type.sell {
+            background: rgba(21, 101, 192, 0.15);
+            color: var(--price-blue);
+        }
+
+        .price-card .price-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-price-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            color: var(--white);
+            background: rgba(37, 211, 102, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-price-whatsapp:hover {
+            background: rgba(18, 140, 126, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .btn-price-partner {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            color: var(--white);
+            background: rgba(249, 168, 37, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-price-partner:hover {
+            background: rgba(245, 155, 0, 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Paginación de precios */
+        .prices-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .prices-pagination button {
+            padding: 3px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .prices-pagination button:hover:not(:disabled) {
+            background: rgba(249, 168, 37, 0.7);
+            color: var(--white);
+            border-color: rgba(249, 168, 37, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .prices-pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .prices-pagination .page-info {
+            font-size: 0.7rem;
+            color: #6b7a6b;
+            font-weight: 500;
+        }
+
+        .prices-pagination .page-info span {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .no-prices {
+            text-align: center;
+            padding: 20px 0;
+            color: #6b7a6b;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .no-prices i {
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+
+        /* ============================================ */
+        /* 11. PROCESO DE RECICLAJE */
+        /* ============================================ */
+        .process-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 18px 22px;
+            width: 100%;
+            max-height: 100%;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .process-section::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .process-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .process-section::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .process-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .process-section h2 i {
+            color: var(--primary-green);
+        }
+
+        .process-section .section-subtitle {
+            font-size: 0.8rem;
+            color: #6b7a6b;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .video-banner {
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+            background: rgba(26, 42, 26, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+            aspect-ratio: 16 / 9;
+            max-height: 350px;
+        }
+
+        @media (min-width: 1024px) {
+            .video-banner {
+                aspect-ratio: 21 / 10;
+                max-height: 450px;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .video-banner {
+                aspect-ratio: 21 / 9;
+                max-height: 500px;
+            }
+        }
+
+        .video-banner iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            flex: 1;
+            min-height: 0;
+            align-content: start;
+            margin-top: 10px;
+        }
+
+        .process-step {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .process-step:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(76, 175, 80, 0.3);
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .process-step .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            background: rgba(46, 125, 50, 0.8);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .process-step .step-icon {
+            font-size: 1.6rem;
+            color: var(--primary-green);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .process-step h4 {
+            color: var(--primary-dark);
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .process-step p {
+            font-size: 0.7rem;
+            color: #5a6a5a;
+            line-height: 1.4;
+        }
+
+        /* ============================================ */
+        /* 12. EVENTOS - SEPARADO */
+        /* ============================================ */
+        .events-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 18px 22px;
+            width: 100%;
+            max-height: 100%;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .events-section::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .events-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .events-section::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .events-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .events-section h2 i {
+            color: var(--event-orange);
+        }
+
+        .events-section .section-subtitle {
+            font-size: 0.8rem;
+            color: #6b7a6b;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .events-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .calendar-wrapper {
+            background: rgba(255, 243, 224, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .calendar-header h3 {
+            color: var(--event-orange);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0;
+        }
+
+        .btn-show-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            background: rgba(245, 124, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-show-all:hover {
+            background: rgba(230, 81, 0, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(245, 124, 0, 0.2);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .calendar-grid .day-name {
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: #8a9a8a;
+            text-align: center;
+            padding: 4px 0;
+            text-transform: uppercase;
+        }
+
+        .calendar-grid .day {
+            text-align: center;
+            padding: 4px 2px;
+            font-size: 0.65rem;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            color: var(--text-dark);
+            transition: var(--transition);
+            cursor: default;
+            border: 1px solid transparent;
+        }
+
+        .calendar-grid .day.empty {
+            background: transparent;
+            border: none;
+        }
+
+        .calendar-grid .day.event-day {
+            background: rgba(245, 124, 0, 0.7);
+            color: var(--white);
+            font-weight: 600;
+            position: relative;
+            cursor: pointer;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .calendar-grid .day.event-day:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(245, 124, 0, 0.2);
+        }
+
+        .calendar-grid .day.today {
+            border-color: var(--primary-green);
+            border-width: 2px;
+        }
+
+        .calendar-grid .day.event-day::after {
+            content: '●';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.35rem;
+            color: var(--white);
+        }
+
+        .calendar-month {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .calendar-month button {
+            background: none;
+            border: none;
+            font-size: 0.85rem;
+            color: var(--event-orange);
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .calendar-month button:hover {
+            background: rgba(245, 124, 0, 0.1);
+        }
+
+        .calendar-month span {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-dark);
+        }
+
+        .event-locations {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .event-locations::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .event-locations::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .event-locations::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .event-locations h3 {
+            color: var(--event-orange);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .event-locations .events-counter {
+            font-size: 0.65rem;
+            color: #8a9a8a;
+            font-weight: 400;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius);
+            padding: 8px 12px;
+            transition: var(--transition);
+            border-left: 3px solid var(--event-orange);
+            animation: fadeInUp 0.4s ease-out;
+            flex-shrink: 0;
+        }
+
+        .event-card:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-hover);
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .event-card .event-date {
+            display: inline-block;
+            background: rgba(245, 124, 0, 0.8);
+            color: var(--white);
+            padding: 1px 8px;
+            border-radius: 50px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .event-card h4 {
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+        }
+
+        .event-card .event-address {
+            font-size: 0.7rem;
+            color: #5a6a5a;
+            margin-bottom: 2px;
+        }
+
+        .event-card .event-time {
+            font-size: 0.65rem;
+            color: #6b7a6b;
+        }
+
+        .event-card .event-badge {
+            display: inline-block;
+            background: rgba(255, 243, 224, 0.5);
+            color: var(--event-orange);
+            padding: 1px 8px;
+            border-radius: 50px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            margin-top: 3px;
+            margin-right: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .events-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .events-pagination button {
+            padding: 3px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .events-pagination button:hover:not(:disabled) {
+            background: rgba(245, 124, 0, 0.7);
+            color: var(--white);
+            border-color: rgba(245, 124, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .events-pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .events-pagination .page-info {
+            font-size: 0.7rem;
+            color: #6b7a6b;
+            font-weight: 500;
+        }
+
+        .events-pagination .page-info span {
+            color: var(--event-orange);
+            font-weight: 700;
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 15px;
+            color: #8a9a8a;
+            font-size: 0.8rem;
+        }
+
+        .no-events i {
+            font-size: 1.5rem;
+            color: var(--event-orange);
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* ============================================ */
+        /* 13. ABOUT + CONTACTO */
+        /* ============================================ */
+        .about-contact-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 18px 22px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            max-height: 100%;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .about-contact-section::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .about-contact-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .about-contact-section::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .about-col {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .about-col h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+
+        .about-col h2 i {
+            color: var(--primary-green);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .about-card {
+            padding: 12px 10px;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(76, 175, 80, 0.3);
+            box-shadow: var(--shadow-hover);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .about-card i {
+            font-size: 1.6rem;
+            color: var(--primary-green);
+            margin-bottom: 4px;
+        }
+
+        .about-card h3 {
+            color: var(--primary-dark);
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+        }
+
+        .about-card p {
+            font-size: 0.7rem;
+            color: #5a6a5a;
+        }
+
+        /* Contacto */
+        .contact-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-col h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .contact-col h2 i {
+            color: var(--primary-green);
+        }
+
+        .contact-col p {
+            font-size: 0.8rem;
+            color: #5a6a5a;
+            margin-bottom: 10px;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            color: var(--primary-dark);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            background: rgba(46, 125, 50, 0.8);
+            color: var(--white);
+            border-color: rgba(46, 125, 50, 0.3);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .contact-info .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #4a5a4a;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .contact-info .info-item:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateX(3px);
+        }
+
+        .contact-info .info-item i {
+            color: var(--primary-green);
+            width: 18px;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================ */
+        /* 14. SERVICIOS */
+        /* ============================================ */
+        .services-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 18px 22px;
+            width: 100%;
+            max-height: 100%;
+            overflow-y: auto;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .services-section::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .services-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .services-section::-webkit-scrollbar-thumb {
+            background: rgba(46, 125, 50, 0.3);
+            border-radius: 10px;
+        }
+
+        .services-section h2 {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            flex-shrink: 0;
+        }
+
+        .services-section .section-subtitle {
+            text-align: center;
+            color: #6b7a6b;
+            margin-bottom: 14px;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(76, 175, 80, 0.3);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .service-card .service-image {
+            width: 100%;
+            height: 110px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-card .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.05);
+        }
+
+        .service-card .service-image .service-icon-overlay {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            background: rgba(46, 125, 50, 0.85);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.2);
+        }
+
+        .service-card .service-content {
+            padding: 12px 14px;
+        }
+
+        .service-card .service-content h3 {
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .service-card .service-content h3 .badge-service {
+            font-size: 0.45rem;
+            background: rgba(76, 175, 80, 0.7);
+            backdrop-filter: blur(5px);
+            color: var(--white);
+            padding: 2px 6px;
+            border-radius: 50px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .service-card .service-content p {
+            color: #5a6a5a;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .service-card .service-content .service-features {
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0 0;
+        }
+
+        .service-card .service-content .service-features li {
+            padding: 2px 0;
+            color: #4a5a4a;
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .service-card .service-content .service-features li:last-child {
+            border-bottom: none;
+        }
+
+        .service-card .service-content .service-features li i {
+            color: var(--primary-green);
+            font-size: 0.55rem;
+            width: 12px;
+        }
+
+        .service-card .service-content .btn-service {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            padding: 4px 14px;
+            background: rgba(37, 211, 102, 0.8);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.65rem;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .service-card .service-content .btn-service:hover {
+            background: rgba(18, 140, 126, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.2);
+        }
+
+        /* ============================================ */
+        /* 15. FOOTER */
+        /* ============================================ */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 42, 30, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--text-light);
+            text-align: center;
+            padding: 5px 0;
+            font-size: 0.6rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
+        }
+
+        .footer i {
+            color: #e53935;
+        }
+
+        /* ============================================ */
+        /* 16. RESPONSIVIDAD */
+        /* ============================================ */
+        @media (max-width: 1024px) {
+            .about-contact-section {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .events-grid-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .prices-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --nav-height: 60px;
+            }
+
+            .navbar {
+                padding: 0 15px;
+            }
+
+            .navbar-logo {
+                font-size: 1.1rem;
+            }
+
+            .navbar-logo i {
+                font-size: 1.3rem;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.5);
+                backdrop-filter: blur(40px);
+                -webkit-backdrop-filter: blur(40px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 0;
+                transform: translateX(100%);
+                transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+                padding: 0 20px;
+                z-index: 1000;
+            }
+
+            .nav-menu.open {
+                transform: translateX(0);
+            }
+
+            .nav-menu li {
+                width: 100%;
+                max-width: 260px;
+            }
+
+            .nav-menu a {
+                justify-content: center;
+                padding: 10px 16px;
+                font-size: 0.95rem;
+                width: 100%;
+                border-radius: 12px;
+            }
+
+            .slides-wrapper {
+                top: var(--nav-height);
+                height: calc(100vh - var(--nav-height) - 36px);
+            }
+
+            .slide {
+                padding: 8px 10px;
+            }
+
+            .hero-content {
+                padding: 20px 15px;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 0.9rem;
+                max-width: 100%;
+                margin: 0 auto 15px;
+            }
+
+            .partners-section {
+                padding: 10px 12px;
+            }
+
+            .partners-grid {
+                gap: 8px 12px;
+            }
+
+            .partner-item img {
+                max-height: 28px;
+                max-width: 65px;
+            }
+
+            .search-section, .prices-section {
+                padding: 12px 14px;
+            }
+
+            .search-section h2, .prices-section h2 {
+                font-size: 1.1rem;
+            }
+
+            .search-box, .prices-search-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #searchInput, .prices-search-box input {
+                width: 100%;
+                min-width: unset;
+            }
+
+            #searchBtn, .prices-search-box button {
+                justify-content: center;
+            }
+
+            .filter-tags, .prices-filter-tags {
+                gap: 4px;
+            }
+
+            .filter-tag, .prices-filter-tag {
+                font-size: 0.6rem;
+                padding: 2px 8px;
+            }
+
+            .results-grid, .prices-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-section {
+                padding: 12px 14px;
+            }
+
+            .process-section h2 {
+                font-size: 1rem;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+
+            .process-step {
+                padding: 8px 10px;
+            }
+
+            .process-step .step-icon {
+                font-size: 1.2rem;
+            }
+
+            .process-step h4 {
+                font-size: 0.75rem;
+            }
+
+            .process-step p {
+                font-size: 0.6rem;
+            }
+
+            .video-banner {
+                max-height: 200px;
+                aspect-ratio: 16 / 9 !important;
+            }
+
+            .events-section {
+                padding: 12px 14px;
+            }
+
+            .events-section h2 {
+                font-size: 1rem;
+            }
+
+            .events-grid-layout {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .calendar-wrapper {
+                padding: 10px 12px;
+            }
+
+            .calendar-grid .day {
+                padding: 3px 1px;
+                font-size: 0.6rem;
+            }
+
+            .calendar-grid .day-name {
+                font-size: 0.45rem;
+            }
+
+            .calendar-month span {
+                font-size: 0.7rem;
+            }
+
+            .event-card {
+                padding: 6px 10px;
+            }
+
+            .event-card h4 {
+                font-size: 0.7rem;
+            }
+
+            .event-card .event-address {
+                font-size: 0.6rem;
+            }
+
+            .event-card .event-time {
+                font-size: 0.55rem;
+            }
+
+            .events-pagination button {
+                font-size: 0.6rem;
+                padding: 2px 8px;
+            }
+
+            .about-contact-section {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .about-card {
+                padding: 8px 10px;
+            }
+
+            .contact-col {
+                padding: 12px;
+            }
+
+            .services-section {
+                padding: 12px 14px;
+            }
+
+            .services-section h2 {
+                font-size: 1.1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .service-card .service-image {
+                height: 90px;
+            }
+
+            .floating-buttons {
+                bottom: 36px;
+                right: 12px;
+                gap: 10px;
+            }
+
+            .floating-btn {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+            }
+
+            .floating-btn .tooltip {
+                display: none;
+            }
+
+            .prices-pagination {
+                gap: 5px;
+            }
+
+            .prices-pagination button {
+                font-size: 0.6rem;
+                padding: 2px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero-content .btn-primary {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .search-section h2, .prices-section h2 {
+                font-size: 1rem;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-grid .day {
+                font-size: 0.5rem;
+                padding: 2px 0;
+            }
+
+            .calendar-grid .day-name {
+                font-size: 0.4rem;
+            }
+
+            .events-pagination button {
+                font-size: 0.5rem;
+                padding: 2px 6px;
+            }
+
+            .event-locations {
+                max-height: 150px;
+            }
+
+            .prices-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prices-pagination button {
+                font-size: 0.55rem;
+                padding: 2px 6px;
+            }
+        }
+
+        .menu-open {
+            overflow: hidden;
+        }
+
+        /* ============================================ */
+        /* 17. BURBUJAS DECORATIVAS */
+        /* ============================================ */
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12), rgba(76, 175, 80, 0.04));
+            pointer-events: none;
+            z-index: -1;
+            animation: bubbleFloat 25s ease-in-out infinite alternate;
+        }
+
+        .bubble:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: -5%;
+            animation-duration: 30s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            bottom: 20%;
+            right: -3%;
+            animation-duration: 22s;
+            animation-delay: -5s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            top: 40%;
+            left: 50%;
+            animation-duration: 28s;
+            animation-delay: -10s;
+        }
+
+        @keyframes bubbleFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -20px) scale(1.05); }
+            66% { transform: translate(-20px, 30px) scale(0.95); }
+            100% { transform: translate(10px, -10px) scale(1.02); }
+        }
+
+        /* ============================================ */
+        /* 18. ANIMACIONES ADICIONALES */
+        /* ============================================ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(46, 125, 50, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(46, 125, 50, 0.25); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        /* Partículas decorativas */
+        .particle {
+            position: fixed;
+            font-size: 1rem;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: -1;
+            animation: particleFloat 20s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.06; }
+            90% { opacity: 0.06; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Partículas decorativas -->
+    <div class="particle" style="left:5%;animation-delay:0s;">♻️</div>
+    <div class="particle" style="left:15%;animation-delay:3s;">🌱</div>
+    <div class="particle" style="left:30%;animation-delay:6s;">♻️</div>
+    <div class="particle" style="left:50%;animation-delay:9s;">🌿</div>
+    <div class="particle" style="left:65%;animation-delay:12s;">♻️</div>
+    <div class="particle" style="left:80%;animation-delay:15s;">🍃</div>
+    <div class="particle" style="left:92%;animation-delay:18s;">♻️</div>
+
+    <!-- Burbujas decorativas -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+
+    <!-- ============================================ -->
+    <!-- PRELOADER -->
+    <!-- ============================================ -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <div class="loader-logo-ring"></div>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="80" height="80">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#2e7d32" stroke-width="4" stroke-dasharray="30 200" stroke-linecap="round">
+                        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1.5s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="#4caf50" stroke-width="3" stroke-dasharray="20 150" stroke-linecap="round">
+                        <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="1.2s" repeatCount="indefinite" />
+                    </circle>
+                    <text x="50" y="58" font-family="'Inter', sans-serif" font-size="22" font-weight="800" fill="#1b5e20" text-anchor="middle">R</text>
+                </svg>
+            </div>
+            <h1 class="loader-name">Recyclum</h1>
+            <div class="loader-subtitle">♻️ Reciclando un futuro mejor</div>
+            <div class="loader-progress-bar">
+                <div class="loader-progress-fill"></div>
+            </div>
+            <div class="loader-percentage">Cargando...</div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- BOTONES FLOTANTES -->
+    <!-- ============================================ -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/524421112345?text=Hola%2C%20me%20comunico%20desde%20Recyclum.%20Me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n." 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="floating-btn floating-btn-whatsapp" 
+           aria-label="Contactar por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span class="tooltip">WhatsApp</span>
+            <span class="notification-dot"></span>
+        </a>
+
+        <button id="backToTop" class="floating-btn floating-btn-top" aria-label="Volver arriba">
+            <i class="fas fa-arrow-up"></i>
+            <span class="tooltip">Volver arriba</span>
+        </button>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <!-- ============================================ -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="navbar-logo" onclick="navigateTo('inicio')">
+            <i class="fas fa-recycle"></i>
+            <span>Recyclum</span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-menu" id="navMenu">
+            <li><a class="active" data-slide="inicio"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a data-slide="buscador"><i class="fas fa-search"></i> Buscar</a></li>
+            <li><a data-slide="precios"><i class="fas fa-dollar-sign"></i> Precios</a></li>
+            <li><a data-slide="proceso"><i class="fas fa-recycle"></i> Proceso</a></li>
+            <li><a data-slide="eventos"><i class="fas fa-calendar-alt"></i> Eventos</a></li>
+            <li><a data-slide="about-contacto"><i class="fas fa-info-circle"></i> Sobre</a></li>
+            <li><a data-slide="servicios"><i class="fas fa-handshake"></i> Servicios</a></li>
+        </ul>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- CONTENEDOR DE DIAPOSITIVAS -->
+    <!-- ============================================ -->
+    <div class="slides-wrapper" id="slidesWrapper">
+
+        <!-- SLIDE: INICIO / HERO -->
+        <div class="slide active" id="slide-inicio">
+            <div class="slide-content">
+                <div class="hero-slide" style="position:relative;width:100%;height:100%;">
+                    <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1200&h=600&fit=crop&crop=center">
+                        <source src="https://cdn.pixabay.com/video/2024/08/24/226601_tiny.mp4" type="video/mp4">
+                    </video>
+                    <img class="hero-video-poster" src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1200&h=600&fit=crop&crop=center" alt="Reciclaje y sostenibilidad">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content">
+                        <div class="hero-badge pulse-glow"><i class="fas fa-leaf"></i> Compromiso ambiental</div>
+                        <h1>Encuentra dónde reciclar en <span class="highlight">Querétaro</span></h1>
+                        <p>Conectamos a la comunidad con centros de reciclaje locales. Busca por colonia o código postal.</p>
+                        <button class="btn-primary" onclick="navigateTo('buscador')"><i class="fas fa-map-pin"></i> Buscar ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE: SOCIOS + BUSCADOR -->
+        <div class="slide" id="slide-buscador">
+            <div class="slide-content" style="display:flex;flex-direction:column;gap:10px;justify-content:center;height:100%;">
+                <!-- Socios -->
+                <div class="partners-section">
+                    <div class="partners-title">
+                        <i class="fas fa-handshake"></i> Nuestros socios comerciales
+                    </div>
+                    <div class="partners-grid" id="partnersGrid">
+                        <div class="partners-loading">
+                            <i class="fas fa-spinner fa-spin"></i> Cargando socios...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buscador -->
+                <div class="search-section">
+                    <h2><i class="fas fa-search-location"></i> Busca tu centro de reciclaje</h2>
+                    <p>Ingresa el nombre de tu colonia o el código postal.</p>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Ej: Centro, 76000, Jurica..." aria-label="Buscar colonia o código postal">
+                        <button id="searchBtn"><i class="fas fa-arrow-right"></i> Buscar</button>
+                    </div>
+                    <div class="filter-tags">
+                        <span class="filter-tag active" data-filter="todos">Todos</span>
+                        <span class="filter-tag" data-filter="papel">Papel</span>
+                        <span class="filter-tag" data-filter="plastico">Plástico</span>
+                        <span class="filter-tag" data-filter="vidrio">Vidrio</span>
+                        <span class="filter-tag" data-filter="electronico">Electrónico</span>
+                        <span class="filter-tag" data-filter="organico">Orgánico</span>
+                    </div>
+
+                    <!-- Resultados -->
+                    <div class="results-container" id="resultsContainer">
+                        <div class="results-header">
+                            <h3>Centros de reciclaje <span id="resultCount"></span></h3>
+                        </div>
+                        <div class="results-grid" id="resultsGrid"></div>
+                        <div id="noResults" class="no-results" style="display: none;">
+                            <i class="fas fa-search"></i>
+                            <p>No encontramos centros en esa zona. <br> Intenta con otra colonia o código postal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- SLIDE: PRECIOS - COMPRA/VENTA (ACTUALIZADO) -->
+        <!-- ============================================ -->
+        <div class="slide" id="slide-precios">
+            <div class="slide-content" style="height:100%;">
+                <div class="prices-section">
+                    <h2><i class="fas fa-dollar-sign"></i> Compra / Venta de Materiales</h2>
+                    <p>Consulta los precios actualizados de los materiales reciclables.</p>
+                    
+                    <div class="prices-search-box">
+                        <input type="text" id="pricesSearchInput" placeholder="Buscar material..." aria-label="Buscar material">
+                        <button id="pricesSearchBtn"><i class="fas fa-arrow-right"></i> Buscar</button>
+                    </div>
+                    
+                    <div class="prices-filter-tags">
+                        <span class="prices-filter-tag active" data-filter="todos"><i class="fas fa-th-list"></i> Todos</span>
+                        <span class="prices-filter-tag" data-filter="compra"><i class="fas fa-shopping-cart"></i> Compra</span>
+                        <span class="prices-filter-tag" data-filter="venta"><i class="fas fa-hand-holding-usd"></i> Venta</span>
+                    </div>
+
+                    <!-- Resultados de precios -->
+                    <div class="prices-results-container visible" id="pricesResultsContainer">
+                        <div class="prices-results-header">
+                            <h3>Materiales <span id="pricesCount"></span></h3>
+                        </div>
+                        <div class="prices-grid" id="pricesGrid"></div>
+                        <div id="noPrices" class="no-prices" style="display: none;">
+                            <i class="fas fa-search"></i>
+                            <p>No encontramos precios para ese material.</p>
+                        </div>
+                        <!-- Paginación de precios -->
+                        <div class="prices-pagination" id="pricesPagination">
+                            <!-- Generado por JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE: PROCESO DE RECICLAJE -->
+        <div class="slide" id="slide-proceso">
+            <div class="slide-content" style="height:100%;">
+                <div class="process-section">
+                    <h2><i class="fas fa-recycle"></i> Proceso de reciclaje</h2>
+                    <p class="section-subtitle">Conoce cómo funciona el ciclo del reciclaje.</p>
+                    <div class="video-banner">
+                        <iframe src="https://www.youtube.com/embed/6jQ7y_qQYUA?si=zE5wP5UzRr_lHqwD" 
+                                title="Video sobre el proceso de reciclaje" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="process-grid">
+                        <div class="process-step">
+                            <span class="step-number">1</span>
+                            <span class="step-icon">🗑️</span>
+                            <h4>Separación en origen</h4>
+                            <p>Residuos separados en casa en diferentes contenedores.</p>
+                        </div>
+                        <div class="process-step">
+                            <span class="step-number">2</span>
+                            <span class="step-icon">🚛</span>
+                            <h4>Recolección y transporte</h4>
+                            <p>Materiales recolectados y transportados a plantas.</p>
+                        </div>
+                        <div class="process-step">
+                            <span class="step-number">3</span>
+                            <span class="step-icon">⚙️</span>
+                            <h4>Clasificación y procesamiento</h4>
+                            <p>Materiales clasificados, limpios y procesados.</p>
+                        </div>
+                        <div class="process-step">
+                            <span class="step-number">4</span>
+                            <span class="step-icon">🔄</span>
+                            <h4>Nuevos productos</h4>
+                            <p>Materia prima reciclada se transforma en nuevos productos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE: EVENTOS -->
+        <div class="slide" id="slide-eventos">
+            <div class="slide-content" style="height:100%;">
+                <div class="events-section">
+                    <h2><i class="fas fa-calendar-alt" style="color:var(--event-orange);"></i> Eventos y campañas</h2>
+                    <p class="section-subtitle">Próximas campañas de recolección de residuos.</p>
+                    
+                    <div class="events-grid-layout">
+                        <div class="calendar-wrapper">
+                            <div class="calendar-header">
+                                <h3><i class="fas fa-calendar-day"></i> Calendario</h3>
+                                <button class="btn-show-all" id="btnShowAllEvents" title="Mostrar todos los eventos">
+                                    <i class="fas fa-list"></i> Todos
+                                </button>
+                            </div>
+                            <div class="calendar-month">
+                                <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                <span id="monthYear"></span>
+                                <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Generado por JavaScript -->
+                            </div>
+                        </div>
+                        <div class="event-locations">
+                            <h3>
+                                <i class="fas fa-map-marker-alt"></i> Ubicaciones
+                                <span class="events-counter" id="eventsCounter"></span>
+                            </h3>
+                            <div id="eventLocationsList">
+                                <div class="no-events">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <p>Cargando eventos...</p>
+                                </div>
+                            </div>
+                            <div class="events-pagination" id="eventsPagination">
+                                <!-- Generado por JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE: ABOUT + CONTACTO -->
+        <div class="slide" id="slide-about-contacto">
+            <div class="slide-content" style="height:100%;">
+                <div class="about-contact-section">
+                    <div class="about-col">
+                        <h2><i class="fas fa-info-circle"></i> Sobre Recyclum</h2>
+                        <div class="about-grid">
+                            <div class="about-card">
+                                <i class="fas fa-leaf"></i>
+                                <h3>Misión</h3>
+                                <p>Facilitar el reciclaje en Querétaro conectando personas con centros de acopio.</p>
+                            </div>
+                            <div class="about-card">
+                                <i class="fas fa-hand-holding-heart"></i>
+                                <h3>Visión</h3>
+                                <p>Ser la plataforma líder en México para la gestión de residuos.</p>
+                            </div>
+                            <div class="about-card">
+                                <i class="fas fa-users"></i>
+                                <h3>Comunidad</h3>
+                                <p>Trabajamos con centros locales, gobierno y ciudadanos por un futuro sustentable.</p>
+                            </div>
+                        </div>
+                        <div style="margin-top:8px;padding:8px 12px;background:rgba(255,255,255,0.15);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.1);flex-shrink:0;">
+                            <p style="font-size:0.75rem;color:#5a6a5a;display:flex;align-items:center;gap:8px;">
+                                <i class="fas fa-quote-left" style="color:var(--primary-green);font-size:1rem;"></i>
+                                <span><strong>Reciclar no es solo una acción, es un compromiso con el futuro.</strong></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="contact-col">
+                        <h2><i class="fas fa-envelope"></i> Contacto</h2>
+                        <p>¿Conoces un centro que no esté en nuestra lista? <br> ¡Contáctanos!</p>
+                        <a href="mailto:info@recyclum.mx" class="btn-secondary"><i class="fas fa-envelope"></i> info@recyclum.mx</a>
+                        <div class="contact-info">
+                            <div class="info-item">
+                                <i class="fas fa-phone"></i>
+                                <span>442 123 4567</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Querétaro, México</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Lun - Vie: 9:00 - 18:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE: SERVICIOS -->
+        <div class="slide" id="slide-servicios">
+            <div class="slide-content" style="height:100%;">
+                <div class="services-section">
+                    <h2><i class="fas fa-handshake" style="color: var(--primary-green);"></i> Nuestros Servicios</h2>
+                    <p class="section-subtitle">Soluciones integrales para la gestión de materiales reciclables.</p>
+
+                    <div class="services-grid">
+
+                        <div class="service-card">
+                            <div class="service-image">
+                                <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&h=400&fit=crop&crop=center" alt="Compra de material reciclado">
+                                <div class="service-icon-overlay">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="service-content">
+                                <h3>COMPRA DE MATERIAL <span class="badge-service">Popular</span></h3>
+                                <p>Apoyo en la compra de material reciclado.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Evaluación y cotización</li>
+                                    <li><i class="fas fa-check-circle"></i> Compra de papel, cartón, plástico y vidrio</li>
+                                    <li><i class="fas fa-check-circle"></i> Precios competitivos</li>
+                                </ul>
+                                <a href="https://wa.me/524421112345?text=Hola%2C%20estoy%20interesado%20en%20el%20servicio%20de%20*COMPRA%20DE%20MATERIAL*.%20Me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener noreferrer" class="btn-service">
+                                    <i class="fab fa-whatsapp"></i> Cotizar
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <div class="service-image">
+                                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop&crop=center" alt="Venta de material reciclado">
+                                <div class="service-icon-overlay">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                            </div>
+                            <div class="service-content">
+                                <h3>VENTA DE MATERIAL</h3>
+                                <p>Facilitamos la venta del material reciclado.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Gestión de la cadena de venta</li>
+                                    <li><i class="fas fa-check-circle"></i> Conexión con compradores certificados</li>
+                                    <li><i class="fas fa-check-circle"></i> Control de inventario</li>
+                                </ul>
+                                <a href="https://wa.me/524421112345?text=Hola%2C%20estoy%20interesado%20en%20el%20servicio%20de%20*VENTA%20DE%20MATERIAL*.%20Me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener noreferrer" class="btn-service">
+                                    <i class="fab fa-whatsapp"></i> Conocer más
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="service-card">
+                            <div class="service-image">
+                                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&crop=center" alt="Administración de reciclaje">
+                                <div class="service-icon-overlay">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                            </div>
+                            <div class="service-content">
+                                <h3>ADMINISTRACIÓN</h3>
+                                <p>Ayudamos a ordenar y transparentar la administración.</p>
+                                <ul class="service-features">
+                                    <li><i class="fas fa-check-circle"></i> Control de inventario de materiales</li>
+                                    <li><i class="fas fa-check-circle"></i> Sistema de trazabilidad</li>
+                                    <li><i class="fas fa-check-circle"></i> Optimización de procesos</li>
+                                </ul>
+                                <a href="https://wa.me/524421112345?text=Hola%2C%20estoy%20interesado%20en%20el%20servicio%20de%20*ADMINISTRACI%C3%93N*.%20Me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener noreferrer" class="btn-service">
+                                    <i class="fab fa-whatsapp"></i> Asesoría
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- FOOTER -->
+    <!-- ============================================ -->
+    <footer class="footer">
+        <div class="container" style="padding:0 20px;">
+            <p>&copy; 2026 Recyclum · Hecho con <i class="fas fa-heart" style="color:#e53935;"></i> para Querétaro · <i class="fas fa-leaf" style="color:#4caf50;"></i> Cuidemos nuestro planeta</p>
+        </div>
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================================ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ==========================================
+            // 1. PRELOADER
+            // ==========================================
+            const preloader = document.getElementById('preloader');
+            const progressFill = document.querySelector('.loader-progress-fill');
+            const percentageText = document.querySelector('.loader-percentage');
+
+            let progress = 0;
+            const progressInterval = setInterval(function() {
+                progress += Math.random() * 8 + 2;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                }
+                if (progressFill) {
+                    progressFill.style.width = progress + '%';
+                }
+                if (percentageText) {
+                    percentageText.textContent = Math.min(Math.round(progress), 100) + '%';
+                }
+            }, 150);
+
+            setTimeout(function() {
+                clearInterval(progressInterval);
+                if (progressFill) {
+                    progressFill.style.width = '100%';
+                }
+                if (percentageText) {
+                    percentageText.textContent = '100%';
+                }
+                setTimeout(function() {
+                    preloader.classList.add('hidden');
+                }, 400);
+            }, 2800);
+
+            // ==========================================
+            // 2. NAVEGACIÓN ENTRE DIAPOSITIVAS
+            // ==========================================
+            const navLinks = document.querySelectorAll('.nav-menu a[data-slide]');
+            const slides = document.querySelectorAll('.slide');
+
+            window.navigateTo = function(slideId) {
+                slides.forEach(s => s.classList.remove('active'));
+                
+                const targetSlide = document.getElementById('slide-' + slideId);
+                if (targetSlide) {
+                    targetSlide.classList.add('active');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.slide === slideId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                if (navMenu.classList.contains('open')) {
+                    toggleMenu();
+                }
+            };
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const slideId = this.dataset.slide;
+                    navigateTo(slideId);
+                });
+            });
+
+            // ==========================================
+            // 3. MENÚ HAMBURGUESA
+            // ==========================================
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+
+            function toggleMenu() {
+                menuToggle.classList.toggle('active');
+                navMenu.classList.toggle('open');
+                document.body.classList.toggle('menu-open');
+            }
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', toggleMenu);
+            }
+
+            // ==========================================
+            // 4. VIDEO HERO
+            // ==========================================
+            const heroVideo = document.querySelector('.hero-video');
+            const heroPoster = document.querySelector('.hero-video-poster');
+
+            if (heroVideo) {
+                heroVideo.addEventListener('error', function() {
+                    this.style.display = 'none';
+                    if (heroPoster) {
+                        heroPoster.style.display = 'block';
+                    }
+                });
+
+                setTimeout(function() {
+                    if (heroVideo.readyState < 2) {
+                        heroVideo.style.display = 'none';
+                        if (heroPoster) {
+                            heroPoster.style.display = 'block';
+                        }
+                    }
+                }, 3000);
+            }
+
+            // ==========================================
+            // 5. BOTÓN FLOTANTE "VOLVER ARRIBA"
+            // ==========================================
+            const backToTopBtn = document.getElementById('backToTop');
+
+            backToTopBtn.addEventListener('click', function() {
+                navigateTo('inicio');
+            });
+
+            // ==========================================
+            // 6. CARGA DE SOCIOS
+            // ==========================================
+            const JSON_URL_SOCIOS = 'data/socios.json';
+            const partnersGrid = document.getElementById('partnersGrid');
+
+            function getSociosFallback() {
+                return [
+                    { nombre: "EcoEmpresas MX", logo: "https://dummyimage.com/140x60/2e7d32/ffffff?text=EcoEmpresas", url: "https://ecoempresas.mx" },
+                    { nombre: "Green Logistics", logo: "https://dummyimage.com/140x60/4caf50/ffffff?text=Green+Logistics", url: "https://greenlogistics.com" },
+                    { nombre: "Recicla Querétaro", logo: "https://dummyimage.com/140x60/1b5e20/ffffff?text=Recicla+Qro", url: "https://reciclaqro.mx" },
+                    { nombre: "Sustentabilidad MX", logo: "https://dummyimage.com/140x60/388e3c/ffffff?text=Sustentabilidad", url: "https://sustentabilidad.mx" },
+                    { nombre: "Basura Cero", logo: "https://dummyimage.com/140x60/00796b/ffffff?text=Basura+Cero", url: "https://basuracero.mx" }
+                ];
+            }
+
+            function loadSocios() {
+                partnersGrid.innerHTML = `<div class="partners-loading"><i class="fas fa-spinner fa-spin"></i> Cargando socios...</div>`;
+
+                fetch(JSON_URL_SOCIOS)
+                    .then(response => {
+                        if (!response.ok) throw new Error('No se pudo cargar socios.json');
+                        return response.json();
+                    })
+                    .then(data => renderSocios(data))
+                    .catch(() => {
+                        console.warn('Error al cargar socios, usando datos de ejemplo');
+                        renderSocios(getSociosFallback());
+                    });
+            }
+
+            function renderSocios(socios) {
+                if (!socios || socios.length === 0) {
+                    partnersGrid.innerHTML = `<div style="color:#8a9a8a;font-size:0.8rem;"><i class="fas fa-info-circle"></i> No hay socios registrados</div>`;
+                    return;
+                }
+
+                let html = '';
+                socios.forEach(socio => {
+                    const logoHtml = socio.logo ? 
+                        `<img src="${socio.logo}" alt="${socio.nombre}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\\'partner-placeholder\\'><i class=\\'fas fa-building\\'></i>${socio.nombre}</div>'">` :
+                        `<div class="partner-placeholder"><i class="fas fa-building"></i> ${socio.nombre}</div>`;
+
+                    if (socio.url) {
+                        html += `<div class="partner-item"><a href="${socio.url}" target="_blank" rel="noopener noreferrer" title="${socio.nombre}">${logoHtml}</a></div>`;
+                    } else {
+                        html += `<div class="partner-item" title="${socio.nombre}">${logoHtml}</div>`;
+                    }
+                });
+
+                partnersGrid.innerHTML = html;
+            }
+
+            // ==========================================
+            // 7. CENTROS DE RECICLAJE
+            // ==========================================
+            let centrosData = [];
+            let currentFilter = 'todos';
+
+            const JSON_URL_CENTROS = 'data/centros-reciclaje.json';
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsGrid = document.getElementById('resultsGrid');
+            const noResults = document.getElementById('noResults');
+            const resultCount = document.getElementById('resultCount');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            function getFallbackData() {
+                return [
+                    { id: 1, nombre: "Centro de Reciclaje Centro", direccion: "Av. 5 de Febrero 123, Col. Centro", colonia: "Centro", cp: "76000", telefono: "4421234567", whatsapp: "4421234567", lat: 20.5888, lng: -100.3898, materiales: ["papel", "cartón", "plástico"] },
+                    { id: 2, nombre: "EcoRecicla Jurica", direccion: "Paseo de la República 456, Jurica", colonia: "Jurica", cp: "76100", telefono: "4429876543", whatsapp: "4429876543", lat: 20.6819, lng: -100.4463, materiales: ["vidrio", "plástico", "metal"] },
+                    { id: 3, nombre: "Reciclados El Marqués", direccion: "Carretera a Tlacote 789, El Marqués", colonia: "El Marqués", cp: "76240", telefono: "4424567890", whatsapp: "4424567890", lat: 20.6265, lng: -100.2738, materiales: ["electrónico", "pilas", "plástico"] },
+                    { id: 4, nombre: "Punto Verde Álamos", direccion: "Calle Álamos 222, Col. Álamos", colonia: "Álamos", cp: "76148", telefono: "4422345678", whatsapp: "4422345678", lat: 20.6173, lng: -100.3805, materiales: ["orgánico", "papel", "cartón"] },
+                    { id: 5, nombre: "ReciclaTec", direccion: "Blvd. Bernardo Quintana 1500, Col. Carretas", colonia: "Carretas", cp: "76020", telefono: "4423456789", whatsapp: "4423456789", lat: 20.5961, lng: -100.4063, materiales: ["plástico", "electrónico", "metal"] }
+                ];
+            }
+
+            function loadCentros() {
+                resultsContainer.classList.remove('visible');
+
+                fetch(JSON_URL_CENTROS)
+                    .then(response => {
+                        if (!response.ok) throw new Error('No se pudo cargar el JSON');
+                        return response.json();
+                    })
+                    .then(data => { centrosData = data; })
+                    .catch(() => { centrosData = getFallbackData(); });
+            }
+
+            function renderResults(data) {
+                if (data.length === 0) {
+                    resultsGrid.innerHTML = '';
+                    noResults.style.display = 'block';
+                    resultCount.textContent = '(0)';
+                    resultsContainer.classList.add('visible');
+                    return;
+                }
+
+                noResults.style.display = 'none';
+                let html = '';
+                data.forEach(item => {
+                    const materiales = item.materiales.map(m => `<span class="badge">${m}</span>`).join('');
+
+                    let mapsUrl = item.lat && item.lng ? 
+                        `https://www.google.com/maps/search/?api=1&query=${item.lat},${item.lng}` :
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.direccion + ', Querétaro, México')}`;
+
+                    let whatsappUrl = '';
+                    const whatsappNumber = item.whatsapp || item.telefono;
+                    if (whatsappNumber) {
+                        const cleanNumber = whatsappNumber.replace(/[^0-9]/g, '');
+                        const mensaje = encodeURIComponent('Hola, vi su centro en Recyclum. ¿Podrían darme más información?');
+                        whatsappUrl = `https://wa.me/52${cleanNumber}?text=${mensaje}`;
+                    }
+
+                    const telefonoDisplay = item.telefono ? item.telefono.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3') : 'No disponible';
+
+                    html += `
+                        <div class="result-card">
+                            <h4>${item.nombre}</h4>
+                            <p class="address"><i class="fas fa-map-pin" style="color:#4caf50;"></i> ${item.direccion}</p>
+                            <p><i class="fas fa-phone" style="color:#4caf50;"></i> ${telefonoDisplay}</p>
+                            <p><i class="fas fa-tag" style="color:#4caf50;"></i> Colonia: ${item.colonia} (CP ${item.cp})</p>
+                            <div>${materiales}</div>
+                            <div class="card-actions">
+                                ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps"><i class="fas fa-map-marked-alt"></i> Maps</a>` : ''}
+                                ${whatsappUrl ? `<a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsGrid.innerHTML = html;
+                resultCount.textContent = `(${data.length})`;
+                resultsContainer.classList.add('visible');
+            }
+
+            function performSearch(query) {
+                const searchTerm = query.trim().toLowerCase();
+
+                if (centrosData.length === 0) return;
+
+                if (searchTerm === '' && currentFilter === 'todos') {
+                    resultsContainer.classList.remove('visible');
+                    return;
+                }
+
+                let results = [...centrosData];
+
+                if (searchTerm !== '') {
+                    results = results.filter(item => {
+                        const colonia = item.colonia.toLowerCase();
+                        const cp = item.cp;
+                        const nombre = item.nombre.toLowerCase();
+                        const direccion = item.direccion.toLowerCase();
+                        return colonia.includes(searchTerm) || cp.includes(searchTerm) || nombre.includes(searchTerm) || direccion.includes(searchTerm);
+                    });
+                }
+
+                if (currentFilter !== 'todos') {
+                    results = results.filter(item => item.materiales.includes(currentFilter));
+                }
+
+                if (results.length === 0) {
+                    resultsGrid.innerHTML = '';
+                    noResults.style.display = 'block';
+                    resultCount.textContent = '(0)';
+                    resultsContainer.classList.add('visible');
+                    return;
+                }
+
+                renderResults(results);
+            }
+
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    const query = searchInput ? searchInput.value : '';
+                    performSearch(query);
+                });
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        const query = this.value;
+                        performSearch(query);
+                    }
+                });
+            }
+
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    currentFilter = this.dataset.filter;
+                    const query = searchInput ? searchInput.value : '';
+
+                    if (currentFilter === 'todos' && query.trim() === '') {
+                        resultsContainer.classList.remove('visible');
+                        return;
+                    }
+
+                    performSearch(query);
+                });
+            });
+
+            // ==========================================
+            // 8. PRECIOS - COMPRA/VENTA (ACTUALIZADO)
+            // ==========================================
+            let preciosData = [];
+            let currentPriceFilter = 'todos';
+            let currentPricePage = 1;
+            const PRICES_PER_PAGE = 5;
+
+            const JSON_URL_PRECIOS = 'data/precios.json';
+            const pricesResultsContainer = document.getElementById('pricesResultsContainer');
+            const pricesGrid = document.getElementById('pricesGrid');
+            const noPrices = document.getElementById('noPrices');
+            const pricesCount = document.getElementById('pricesCount');
+            const pricesSearchInput = document.getElementById('pricesSearchInput');
+            const pricesSearchBtn = document.getElementById('pricesSearchBtn');
+            const pricesPagination = document.getElementById('pricesPagination');
+
+            function getPreciosFallback() {
+                return [
+                    { id: 1, material: "Papel Blanco", peso: "kg", precio: 3.50, tipo: "compra" },
+                    { id: 2, material: "Papel Blanco", peso: "tonelada", precio: 3500, tipo: "venta" },
+                    { id: 3, material: "Papel Mezcla", peso: "kg", precio: 2.80, tipo: "compra" },
+                    { id: 4, material: "Papel Mezcla", peso: "tonelada", precio: 2800, tipo: "venta" },
+                    { id: 5, material: "Cartón", peso: "kg", precio: 2.20, tipo: "compra" },
+                    { id: 6, material: "Cartón", peso: "tonelada", precio: 2200, tipo: "venta" },
+                    { id: 7, material: "PET", peso: "kg", precio: 4.00, tipo: "compra" },
+                    { id: 8, material: "PET", peso: "tonelada", precio: 4000, tipo: "venta" },
+                    { id: 9, material: "HDPE", peso: "kg", precio: 5.50, tipo: "compra" },
+                    { id: 10, material: "HDPE", peso: "tonelada", precio: 5500, tipo: "venta" },
+                    { id: 11, material: "Vidrio", peso: "kg", precio: 1.20, tipo: "compra" },
+                    { id: 12, material: "Vidrio", peso: "tonelada", precio: 1200, tipo: "venta" },
+                    { id: 13, material: "Aluminio", peso: "kg", precio: 12.00, tipo: "compra" },
+                    { id: 14, material: "Aluminio", peso: "tonelada", precio: 12000, tipo: "venta" },
+                    { id: 15, material: "Cobre", peso: "kg", precio: 25.00, tipo: "compra" },
+                    { id: 16, material: "Cobre", peso: "tonelada", precio: 25000, tipo: "venta" },
+                    { id: 17, material: "Plástico Mixto", peso: "kg", precio: 1.80, tipo: "compra" },
+                    { id: 18, material: "Plástico Mixto", peso: "tonelada", precio: 1800, tipo: "venta" },
+                    { id: 19, material: "Papel Periódico", peso: "kg", precio: 2.00, tipo: "compra" },
+                    { id: 20, material: "Papel Periódico", peso: "tonelada", precio: 2000, tipo: "venta" },
+                    { id: 21, material: "Electrónicos", peso: "kg", precio: 8.00, tipo: "compra" },
+                    { id: 22, material: "Electrónicos", peso: "tonelada", precio: 8000, tipo: "venta" },
+                    { id: 23, material: "Pilas", peso: "kg", precio: 15.00, tipo: "compra" },
+                    { id: 24, material: "Pilas", peso: "tonelada", precio: 15000, tipo: "venta" },
+                    { id: 25, material: "Aceite Vegetal", peso: "litro", precio: 2.50, tipo: "compra" },
+                    { id: 26, material: "Aceite Vegetal", peso: "tonelada", precio: 2500, tipo: "venta" }
+                ];
+            }
+
+            function loadPrecios() {
+                // Mostrar resultados desde el inicio
+                pricesResultsContainer.classList.add('visible');
+
+                fetch(JSON_URL_PRECIOS)
+                    .then(response => {
+                        if (!response.ok) throw new Error('No se pudo cargar precios.json');
+                        return response.json();
+                    })
+                    .then(data => {
+                        preciosData = data;
+                        console.log('Precios cargados:', preciosData.length);
+                        currentPricePage = 1;
+                        renderPriceResults(preciosData);
+                    })
+                    .catch(() => {
+                        console.warn('Error al cargar precios, usando datos de ejemplo');
+                        preciosData = getPreciosFallback();
+                        console.log('Precios de ejemplo cargados:', preciosData.length);
+                        currentPricePage = 1;
+                        renderPriceResults(preciosData);
+                    });
+            }
+
+            function renderPriceResults(data) {
+                if (data.length === 0) {
+                    pricesGrid.innerHTML = '';
+                    noPrices.style.display = 'block';
+                    pricesCount.textContent = '(0)';
+                    pricesPagination.innerHTML = '';
+                    pricesResultsContainer.classList.add('visible');
+                    return;
+                }
+
+                noPrices.style.display = 'none';
+                
+                // Paginación
+                const totalPages = Math.ceil(data.length / PRICES_PER_PAGE);
+                if (currentPricePage > totalPages) currentPricePage = totalPages;
+                if (currentPricePage < 1) currentPricePage = 1;
+
+                const startIndex = (currentPricePage - 1) * PRICES_PER_PAGE;
+                const endIndex = Math.min(startIndex + PRICES_PER_PAGE, data.length);
+                const pageData = data.slice(startIndex, endIndex);
+
+                let html = '';
+                pageData.forEach(item => {
+                    const tipoLabel = item.tipo === 'compra' ? 'Compra' : 'Venta';
+                    const tipoClass = item.tipo === 'compra' ? 'buy' : 'sell';
+                    const icono = item.tipo === 'compra' ? 'fa-shopping-cart' : 'fa-hand-holding-usd';
+                    const colorIcono = item.tipo === 'compra' ? '#2e7d32' : '#1565c0';
+                    const mensajeWhatsApp = encodeURIComponent(`Hola, estoy interesado en el precio de *${item.material}* (${item.tipo}) al costo de $${item.precio}/${item.peso}. ¿Podrían darme más información?`);
+
+                    html += `
+                        <div class="price-card">
+                            <div class="price-header">
+                                <span class="price-material">${item.material}</span>
+                                <span class="price-icon ${tipoClass}"><i class="fas ${icono}"></i></span>
+                            </div>
+                            <div class="price-amount">
+                                $${item.precio.toFixed(2)} <span class="currency">/ ${item.peso}</span>
+                            </div>
+                            <div class="price-weight">
+                                <i class="fas fa-weight-hanging"></i> Peso: ${item.peso}
+                            </div>
+                            <span class="price-type ${tipoClass}">${tipoLabel}</span>
+                            <div class="price-actions">
+                                <a href="https://wa.me/524421112345?text=${mensajeWhatsApp}" target="_blank" rel="noopener noreferrer" class="btn-price-whatsapp">
+                                    <i class="fab fa-whatsapp"></i> Consultar
+                                </a>
+                                <button class="btn-price-partner" onclick="window.open('https://wa.me/524421112345?text=Hola%2C%20me%20gustar%C3%ADa%20ser%20socio%20comercial%20de%20Recyclum%20para%20mejorar%20precios%20de%20${encodeURIComponent(item.material)}.', '_blank')">
+                                    <i class="fas fa-handshake"></i> Socio
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                pricesGrid.innerHTML = html;
+                pricesCount.textContent = `(${data.length})`;
+                pricesResultsContainer.classList.add('visible');
+                
+                // Renderizar paginación
+                renderPricePagination(totalPages, data.length);
+            }
+
+            function renderPricePagination(totalPages, totalItems) {
+                if (totalPages <= 1) {
+                    pricesPagination.innerHTML = '';
+                    return;
+                }
+
+                let paginationHtml = `
+                    <button id="pricePrevPage" ${currentPricePage === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-chevron-left"></i> Anterior
+                    </button>
+                    <span class="page-info">Página <span>${currentPricePage}</span> de <span>${totalPages}</span></span>
+                    <button id="priceNextPage" ${currentPricePage === totalPages ? 'disabled' : ''}>
+                        Siguiente <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+
+                pricesPagination.innerHTML = paginationHtml;
+
+                const prevBtn = document.getElementById('pricePrevPage');
+                const nextBtn = document.getElementById('priceNextPage');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        if (currentPricePage > 1) {
+                            currentPricePage--;
+                            // Re-aplicar búsqueda y filtros
+                            performPriceSearch(pricesSearchInput ? pricesSearchInput.value : '');
+                        }
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        const filteredData = getFilteredPriceData(pricesSearchInput ? pricesSearchInput.value : '');
+                        const totalPagesCalc = Math.ceil(filteredData.length / PRICES_PER_PAGE);
+                        if (currentPricePage < totalPagesCalc) {
+                            currentPricePage++;
+                            performPriceSearch(pricesSearchInput ? pricesSearchInput.value : '');
+                        }
+                    });
+                }
+            }
+
+            function getFilteredPriceData(query) {
+                const searchTerm = query.trim().toLowerCase();
+
+                if (preciosData.length === 0) return [];
+
+                let results = [...preciosData];
+
+                if (searchTerm !== '') {
+                    results = results.filter(item => {
+                        const material = item.material.toLowerCase();
+                        const peso = item.peso.toLowerCase();
+                        return material.includes(searchTerm) || peso.includes(searchTerm);
+                    });
+                }
+
+                if (currentPriceFilter !== 'todos') {
+                    results = results.filter(item => item.tipo === currentPriceFilter);
+                }
+
+                return results;
+            }
+
+            function performPriceSearch(query) {
+                const results = getFilteredPriceData(query);
+
+                if (results.length === 0) {
+                    pricesGrid.innerHTML = '';
+                    noPrices.style.display = 'block';
+                    pricesCount.textContent = '(0)';
+                    pricesPagination.innerHTML = '';
+                    pricesResultsContainer.classList.add('visible');
+                    return;
+                }
+
+                // Resetear página si la actual es mayor que el total
+                const totalPages = Math.ceil(results.length / PRICES_PER_PAGE);
+                if (currentPricePage > totalPages) currentPricePage = totalPages;
+                if (currentPricePage < 1) currentPricePage = 1;
+
+                renderPriceResults(results);
+            }
+
+            if (pricesSearchBtn) {
+                pricesSearchBtn.addEventListener('click', function() {
+                    currentPricePage = 1;
+                    const query = pricesSearchInput ? pricesSearchInput.value : '';
+                    performPriceSearch(query);
+                });
+            }
+
+            if (pricesSearchInput) {
+                pricesSearchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        currentPricePage = 1;
+                        const query = this.value;
+                        performPriceSearch(query);
+                    }
+                });
+            }
+
+            document.querySelectorAll('.prices-filter-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    document.querySelectorAll('.prices-filter-tag').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    currentPriceFilter = this.dataset.filter;
+                    currentPricePage = 1;
+                    const query = pricesSearchInput ? pricesSearchInput.value : '';
+                    performPriceSearch(query);
+                });
+            });
+
+            // ==========================================
+            // 9. EVENTOS
+            // ==========================================
+            let eventosData = [];
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+            let currentPage = 1;
+            let isShowingAll = false;
+            const EVENTS_PER_PAGE = 3;
+
+            const JSON_URL_EVENTOS = 'data/eventos.json';
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthYearSpan = document.getElementById('monthYear');
+            const eventLocationsList = document.getElementById('eventLocationsList');
+            const eventsPagination = document.getElementById('eventsPagination');
+            const eventsCounter = document.getElementById('eventsCounter');
+            const btnShowAll = document.getElementById('btnShowAllEvents');
+
+            function getEventosFallback() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth();
+                return [
+                    { id: 1, titulo: "Recolección de Electrónicos - Centro", fecha: `${year}-${String(month+1).padStart(2,'0')}-${String(15).padStart(2,'0')}`, hora: "10:00 - 14:00", direccion: "Plaza de Armas, Centro Histórico", colonia: "Centro", cp: "76000", lat: 20.5888, lng: -100.3898, tipo: "electrónico" },
+                    { id: 2, titulo: "Campaña de Reciclaje - Jurica", fecha: `${year}-${String(month+1).padStart(2,'0')}-${String(22).padStart(2,'0')}`, hora: "09:00 - 13:00", direccion: "Parque Jurica, Av. Universidad", colonia: "Jurica", cp: "76100", lat: 20.6819, lng: -100.4463, tipo: "electrónico, pilas" },
+                    { id: 3, titulo: "Reciclatón - El Marqués", fecha: `${year}-${String(month+2).padStart(2,'0')}-${String(5).padStart(2,'0')}`, hora: "08:00 - 15:00", direccion: "Plaza Principal, El Marqués", colonia: "El Marqués", cp: "76240", lat: 20.6265, lng: -100.2738, tipo: "electrónico, papel, plástico" },
+                    { id: 4, titulo: "Recolección - Cimatario", fecha: `${year}-${String(month+2).padStart(2,'0')}-${String(18).padStart(2,'0')}`, hora: "10:00 - 14:00", direccion: "Calle Cimatario 55, Col. Cimatario", colonia: "Cimatario", cp: "76030", lat: 20.5714, lng: -100.3776, tipo: "electrónico, pilas" },
+                    { id: 5, titulo: "Reciclaje - Carretas", fecha: `${year}-${String(month+3).padStart(2,'0')}-${String(2).padStart(2,'0')}`, hora: "10:00 - 14:00", direccion: "Blvd. Bernardo Quintana 1500, Col. Carretas", colonia: "Carretas", cp: "76020", lat: 20.5961, lng: -100.4063, tipo: "electrónico, metal" },
+                    { id: 6, titulo: "Campaña - Álamos", fecha: `${year}-${String(month+3).padStart(2,'0')}-${String(15).padStart(2,'0')}`, hora: "09:00 - 13:00", direccion: "Calle Álamos 222, Col. Álamos", colonia: "Álamos", cp: "76148", lat: 20.6173, lng: -100.3805, tipo: "electrónico, papel, plástico" },
+                    { id: 7, titulo: "Reciclatón - Parque Industrial", fecha: `${year}-${String(month+4).padStart(2,'0')}-${String(10).padStart(2,'0')}`, hora: "08:00 - 15:00", direccion: "Parque Industrial Querétaro, Nave 12", colonia: "Parque Industrial", cp: "76220", lat: 20.6492, lng: -100.4116, tipo: "electrónico, metal, plástico" }
+                ];
+            }
+
+            function loadEventos() {
+                fetch(JSON_URL_EVENTOS)
+                    .then(response => {
+                        if (!response.ok) throw new Error('No se pudo cargar eventos.json');
+                        return response.json();
+                    })
+                    .then(data => {
+                        eventosData = data;
+                        renderCalendar(currentMonth, currentYear);
+                        renderEventLocationsWithPagination();
+                    })
+                    .catch(() => {
+                        eventosData = getEventosFallback();
+                        renderCalendar(currentMonth, currentYear);
+                        renderEventLocationsWithPagination();
+                    });
+            }
+
+            function renderCalendar(month, year) {
+                const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                monthYearSpan.textContent = `${monthNames[month]} ${year}`;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+
+                let html = '';
+                const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+                dayNames.forEach(name => { html += `<div class="day-name">${name}</div>`; });
+
+                for (let i = 0; i < firstDay; i++) { html += `<div class="day empty"></div>`; }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                    const isEventDay = eventosData.some(e => e.fecha === dateStr);
+                    const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
+                    
+                    let classes = 'day';
+                    if (isEventDay) classes += ' event-day';
+                    if (isToday) classes += ' today';
+                    
+                    html += `<div class="${classes}" data-date="${dateStr}">${day}</div>`;
+                }
+
+                calendarGrid.innerHTML = html;
+
+                calendarGrid.querySelectorAll('.day.event-day').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        const eventosDelDia = eventosData.filter(e => e.fecha === date);
+                        if (eventosDelDia.length > 0) {
+                            currentPage = 1;
+                            isShowingAll = false;
+                            btnShowAll.innerHTML = '<i class="fas fa-list"></i> Todos';
+                            renderEventLocationsWithPagination(eventosDelDia);
+                        }
+                    });
+                });
+            }
+
+            function renderEventLocationsWithPagination(filteredEvents = null) {
+                const events = filteredEvents || eventosData;
+                
+                if (events.length === 0) {
+                    eventLocationsList.innerHTML = `<div class="no-events"><i class="fas fa-calendar-times"></i><p>No hay eventos programados.</p></div>`;
+                    eventsPagination.innerHTML = '';
+                    eventsCounter.textContent = '';
+                    return;
+                }
+
+                const sortedEvents = [...events].sort((a, b) => a.fecha.localeCompare(b.fecha));
+                const totalPages = Math.ceil(sortedEvents.length / EVENTS_PER_PAGE);
+                
+                if (currentPage > totalPages) currentPage = totalPages;
+                if (currentPage < 1) currentPage = 1;
+
+                const startIndex = (currentPage - 1) * EVENTS_PER_PAGE;
+                const endIndex = Math.min(startIndex + EVENTS_PER_PAGE, sortedEvents.length);
+                const pageEvents = sortedEvents.slice(startIndex, endIndex);
+
+                eventsCounter.textContent = `(${sortedEvents.length} eventos)`;
+
+                let html = '';
+                pageEvents.forEach(event => {
+                    const fecha = event.fecha.split('-').reverse().join('/');
+                    const mapsUrl = event.lat && event.lng ? 
+                        `https://www.google.com/maps/search/?api=1&query=${event.lat},${event.lng}` :
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.direccion + ', Querétaro, México')}`;
+
+                    html += `
+                        <div class="event-card">
+                            <div class="event-date"><i class="far fa-calendar-alt"></i> ${fecha}</div>
+                            <h4>${event.titulo}</h4>
+                            <p class="event-address"><i class="fas fa-map-pin" style="color:#f57c00;"></i> ${event.direccion}</p>
+                            <p class="event-time"><i class="far fa-clock"></i> ${event.hora || 'Horario por confirmar'}</p>
+                            <div>
+                                ${event.tipo ? `<span class="event-badge"><i class="fas fa-tag"></i> ${event.tipo}</span>` : ''}
+                                ${event.colonia ? `<span class="event-badge"><i class="fas fa-location-dot"></i> ${event.colonia}</span>` : ''}
+                            </div>
+                            <div class="card-actions" style="margin-top:4px;border-top:none;padding-top:0;">
+                                <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps"><i class="fas fa-map-marked-alt"></i> Ver ubicación</a>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                eventLocationsList.innerHTML = html;
+                renderPagination(totalPages);
+            }
+
+            function renderPagination(totalPages) {
+                if (totalPages <= 1) {
+                    eventsPagination.innerHTML = '';
+                    return;
+                }
+
+                eventsPagination.innerHTML = `
+                    <button id="prevPage" ${currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i> Anterior</button>
+                    <span class="page-info">Página <span>${currentPage}</span> de <span>${totalPages}</span></span>
+                    <button id="nextPage" ${currentPage === totalPages ? 'disabled' : ''}>Siguiente <i class="fas fa-chevron-right"></i></button>
+                `;
+
+                const prevBtn = document.getElementById('prevPage');
+                const nextBtn = document.getElementById('nextPage');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        if (currentPage > 1) { currentPage--; renderEventLocationsWithPagination(); }
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        const totalPagesCalc = Math.ceil(eventosData.length / EVENTS_PER_PAGE);
+                        if (currentPage < totalPagesCalc) { currentPage++; renderEventLocationsWithPagination(); }
+                    });
+                }
+            }
+
+            if (btnShowAll) {
+                btnShowAll.addEventListener('click', function() {
+                    currentPage = 1;
+                    isShowingAll = true;
+                    this.innerHTML = '<i class="fas fa-check"></i> Mostrando todos';
+                    renderEventLocationsWithPagination(eventosData);
+                    setTimeout(() => {
+                        if (isShowingAll) {
+                            this.innerHTML = '<i class="fas fa-list"></i> Todos';
+                            isShowingAll = false;
+                        }
+                    }, 2000);
+                });
+            }
+
+            document.getElementById('prevMonth').addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            document.getElementById('nextMonth').addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+                renderCalendar(currentMonth, currentYear);
+            });
+
+            // ==========================================
+            // 10. INICIALIZACIÓN
+            // ==========================================
+            loadSocios();
+            loadCentros();
+            loadPrecios();
+            loadEventos();
+
+        });
+    </script>
+
+</body>
+</html>

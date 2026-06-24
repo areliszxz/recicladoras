@@ -1,0 +1,99 @@
+[
+  {
+    "id": 1,
+    "titulo": "Recolección de Electrónicos - Centro",
+    "fecha": "2026-07-15",
+    "hora": "10:00 - 14:00",
+    "direccion": "Plaza de Armas, Centro Histórico",
+    "colonia": "Centro",
+    "cp": "76000",
+    "lat": 20.5888,
+    "lng": -100.3898,
+    "tipo": "electrónico"
+  },
+  {
+    "id": 2,
+    "titulo": "Campaña de Reciclaje - Jurica",
+    "fecha": "2026-07-22",
+    "hora": "09:00 - 13:00",
+    "direccion": "Parque Jurica, Av. Universidad",
+    "colonia": "Jurica",
+    "cp": "76100",
+    "lat": 20.6819,
+    "lng": -100.4463,
+    "tipo": "electrónico, pilas"
+  },
+  {
+    "id": 3,
+    "titulo": "Reciclatón - El Marqués",
+    "fecha": "2026-08-05",
+    "hora": "08:00 - 15:00",
+    "direccion": "Plaza Principal, El Marqués",
+    "colonia": "El Marqués",
+    "cp": "76240",
+    "lat": 20.6265,
+    "lng": -100.2738,
+    "tipo": "electrónico, papel, plástico"
+  },
+  {
+    "id": 4,
+    "titulo": "Recolección de Residuos Electrónicos - Cimatario",
+    "fecha": "2026-08-18",
+    "hora": "10:00 - 14:00",
+    "direccion": "Calle Cimatario 55, Col. Cimatario",
+    "colonia": "Cimatario",
+    "cp": "76030",
+    "lat": 20.5714,
+    "lng": -100.3776,
+    "tipo": "electrónico, pilas"
+  },
+  {
+    "id": 5,
+    "titulo": "Reciclaje de Electrónicos - Carretas",
+    "fecha": "2026-09-02",
+    "hora": "10:00 - 14:00",
+    "direccion": "Blvd. Bernardo Quintana 1500, Col. Carretas",
+    "colonia": "Carretas",
+    "cp": "76020",
+    "lat": 20.5961,
+    "lng": -100.4063,
+    "tipo": "electrónico, metal"
+  },
+  {
+    "id": 6,
+    "titulo": "Campaña de Reciclaje - Álamos",
+    "fecha": "2026-09-15",
+    "hora": "09:00 - 13:00",
+    "direccion": "Calle Álamos 222, Col. Álamos",
+    "colonia": "Álamos",
+    "cp": "76148",
+    "lat": 20.6173,
+    "lng": -100.3805,
+    "tipo": "electrónico, papel, plástico"
+  },
+  {
+    "id": 7,
+    "titulo": "Reciclatón - Parque Industrial",
+    "fecha": "2026-10-10",
+    "hora": "08:00 - 15:00",
+    "direccion": "Parque Industrial Querétaro, Nave 12",
+    "colonia": "Parque Industrial",
+    "cp": "76220",
+    "lat": 20.6492,
+    "lng": -100.4116,
+    "tipo": "electrónico, metal, plástico"
+  }
+  ,
+  {
+    "id": 8,
+    "titulo": "Reciclatón - Parque Industrial V2",
+    "fecha": "2026-10-10",
+    "hora": "08:00 - 15:00",
+    "direccion": "Parque Industrial Querétaro, Nave 12",
+    "colonia": "Parque Industrial",
+    "cp": "76220",
+    "lat": 20.6492,
+    "lng": -100.4116,
+    "tipo": "electrónico, metal, plástico"
+  }
+]

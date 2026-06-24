@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "material": "Papel Blanco",
+    "peso": "kg",
+    "precio": 3.50,
+    "tipo": "compra"
+  },
+  {
+    "id": 2,
+    "material": "Papel carton",
+    "peso": "tonelada",
+    "precio": 3500,
+    "tipo": "venta"
+  },
+    {
+    "id": 3,
+    "material": "aluminio",
+    "peso": "tonelada",
+    "precio": 3500,
+    "tipo": "venta"
+  },
+    {
+    "id": 4,
+    "material": "cobre",
+    "peso": "tonelada",
+    "precio": 3500,
+    "tipo": "compra"
+  },
+    {
+    "id": 5,
+    "material": "acero",
+    "peso": "tonelada",
+    "precio": 3500,
+    "tipo": "venta"
+  },
+    {
+    "id": 6,
+    "material": "vidrio",
+    "peso": "tonelada",
+    "precio": 3500,
+    "tipo": "compra"
+  },
+    {
+    "id": 7,
+    "material": "pet",
+    "peso": "tonelada",
+    "precio": 3500,
+    "tipo": "venta"
+  },
+    {
+    "id": 8,
+    "material": "llantas",
+    "peso": "tonelada",
+    "precio": 300,
+    "tipo": "compra"
+  }
+]
